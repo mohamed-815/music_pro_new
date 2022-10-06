@@ -1,0 +1,130 @@
+name: music_pro_1
+description: A new Flutter project.
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.0 <3.0.0'
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  assets_audio_player: ^3.0.5
+  audio_video_progress_bar: ^0.10.0
+  build_runner: ^2.2.0
+  cupertino_icons: ^1.0.2
+  flutter:
+    sdk: flutter
+  flutter_screenutil: ^5.5.4
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  just_audio: ^0.9.28
+  marquee: ^2.2.3
+  on_audio_query: ^2.6.1
+  rflutter_alert: ^2.0.4
+  scaffold_gradient_background: ^1.0.3+1
+  shared_preferences: ^2.0.15
+  simple_gradient_text: ^1.2.4
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0    
+  flutter_launcher_icons: ^0.10.0
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/29269c979d69671a56ff6f91fba1415a.png"
+
+  hive_generator: ^1.1.3
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/8d-Technology-Audio.webp
+    - assets/Microphone-background-sound-waves-energy-Music.webp
+    - assets/Microphone-background-sound-waves-energy-Music.webp
+    - assets/female-rock-singers-of-the-2000s-and-2010s.jpg
+    - assets/the-musical-journey.webp
+    - assets/crop_480x480_1623441.jpg
+    - assets/251-2519428_0-add-icon-white-png.png
+    - assets/download.png
+    - assets/best-rap-songs-1583527287.png
+    - assets/musics/file_example_MP3_2MG.mp3
+    - assets/musics/file_example_MP3_700KB.mp3
+    - assets/musics/sample-12s.mp3
+    - assets/musics/sample-15s.mp3
+    - assets/black-brick-wall-background-600w-709530229.webp
+    - assets/man-4807395__340.webp
+    - assets/pexels-nardo-3574678.jpg
+    - assets/headphone-music-hd-wallpaper-for-mobile-3831409.png
+    - assets/iphone-5-wallpaper-hd-music.jpg
+    - assets/unnamed.jpg
+    - assets/428559eb2c166465fe68ae30fde89e63.jpg
+    - assets/photo-1531651008558-ed1740375b39.jpg
+    - assets/29269c979d69671a56ff6f91fba1415a.png
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
