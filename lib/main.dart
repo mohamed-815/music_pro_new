@@ -32,10 +32,15 @@ void main() async {
 
   // final Pref1 = await SharedPreferences.getInstance();
   // final notificationon = Pref1.getBool('isturnon')!;
-
+  await sheredprefenrenceinitialseting();
   sheredprefenrenceinitial();
 
   runApp(MyApp());
+}
+
+sheredprefenrenceinitialseting() async {
+  final pref3 = await SharedPreferences.getInstance();
+  notificationison5 = await pref3.setBool('isturnon', false);
 }
 
 sheredprefenrenceinitial() async {

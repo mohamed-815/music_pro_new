@@ -32,15 +32,19 @@ class _SplashScreenState extends State<SplashScreen> {
         ],
       ),
       body: SafeArea(
-          child: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
               child: Container(
-        height: 70,
-        width: 70,
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image:
-                    AssetImage('assets/29269c979d69671a56ff6f91fba1415a.png'))),
-      )
+            height: 80,
+            width: 80,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                    image: AssetImage(
+                        'assets/29269c979d69671a56ff6f91fba1415a.png'))),
+          )
               //
               //
               // GradientText(
@@ -51,7 +55,20 @@ class _SplashScreenState extends State<SplashScreen> {
               //     Color.fromARGB(255, 151, 172, 166),
               //   ],
               // ),
-              )),
+              ),
+          SizedBox(
+            height: 16,
+          ),
+          GradientText(
+            'MUSIC PRO',
+            style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            colors: const [
+              Color.fromARGB(255, 125, 184, 170),
+              Color.fromARGB(255, 125, 184, 170),
+            ],
+          ),
+        ],
+      )),
     );
   }
 

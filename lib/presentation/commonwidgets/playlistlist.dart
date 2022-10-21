@@ -123,8 +123,8 @@ class _PlayListlistState extends State<PlayListlist> {
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           20)),
-                                              height: screenheight / 4,
-                                              padding: EdgeInsets.all(30),
+                                              height: screenheight / 7,
+                                              padding: EdgeInsets.all(3),
                                               child: Column(children: [
                                                 Card(
                                                   color: Colors.white
@@ -145,50 +145,52 @@ class _PlayListlistState extends State<PlayListlist> {
                                                   ),
                                                 ),
                                                 SizedBox(
-                                                    height: screenheight / 13),
+                                                    height: screenheight / 60),
                                                 Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.end,
                                                   children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                          .fromLTRB(0, 0, 8, 0),
-                                                      child: TextButton(
-                                                          onPressed: () async {
-                                                            if (playlistbox.keys.toList() != 'favorite' ||
-                                                                playlistbox.keys
-                                                                        .toList() !=
-                                                                    'totalsongs' ||
-                                                                playlistbox.keys
-                                                                        .toList() !=
-                                                                    'recent1') {
-                                                              await playlistbox
-                                                                  .delete(
-                                                                      playlistkeys[
-                                                                          index]);
-                                                            }
+                                                    TextButton(
+                                                        onPressed: () async {
+                                                          if (playlistbox.keys
+                                                                      .toList() !=
+                                                                  'favorite' ||
+                                                              playlistbox.keys
+                                                                      .toList() !=
+                                                                  'totalsongs' ||
+                                                              playlistbox.keys
+                                                                      .toList() !=
+                                                                  'recent1') {
+                                                            await playlistbox
+                                                                .delete(
+                                                                    playlistkeys[
+                                                                        index]);
+                                                          }
 
-                                                            setState(() {
-                                                              playlistkeys =
-                                                                  playlistbox
-                                                                      .keys
-                                                                      .toList();
-                                                              // playlistkeys.removeWhere((element) =>
-                                                              //     element.toString() ==
-                                                              //     playlistkeys[index].toString());
-                                                            });
-                                                            ScaffoldMessenger
-                                                                    .of(context)
-                                                                .showSnackBar(
-                                                                    SnackBar1()
-                                                                        .playlistdeleted);
-                                                          },
-                                                          child: Text(
-                                                            'delete',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white),
-                                                          )),
+                                                          setState(() {
+                                                            playlistkeys =
+                                                                playlistbox.keys
+                                                                    .toList();
+                                                            // playlistkeys.removeWhere((element) =>
+                                                            //     element.toString() ==
+                                                            //     playlistkeys[index].toString());
+                                                          });
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                                  SnackBar1()
+                                                                      .playlistdeleted);
+                                                          Navigator.of(ctx)
+                                                              .pop();
+                                                        },
+                                                        child: Text(
+                                                          'delete',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white),
+                                                        )),
+                                                    SizedBox(
+                                                      width: screenwidth / 30,
                                                     ),
                                                     TextButton(
                                                         onPressed: () {
