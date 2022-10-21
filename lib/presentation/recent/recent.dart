@@ -2,32 +2,30 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 
 import 'package:music_pro_1/db/audioplay.dart';
-import 'package:music_pro_1/db/boxinstance.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
-
 import 'package:music_pro_1/funtion.dart';
-import 'package:music_pro_1/mainscreen.dart';
-import 'package:music_pro_1/miniplayer.dart';
-import 'package:music_pro_1/widjet1/snackbars.dart';
+import 'package:music_pro_1/presentation/home/mainscreen.dart';
+import 'package:music_pro_1/presentation/commonwidgets/miniplayer.dart';
+
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:scaffold_gradient_background/scaffold_gradient_background.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
-class Favorites extends StatefulWidget {
-  const Favorites({
+class Recent1 extends StatefulWidget {
+  const Recent1({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<Favorites> createState() => _FavoritesState();
+  State<Recent1> createState() => _Recent1State();
 }
 
-List<Audio> playlikedsong = [];
-final favoritebox = Boxes.getInstance();
+class _Recent1State extends State<Recent1> {
+  List<Audio> rcentaudio = [];
 
-class _FavoritesState extends State<Favorites> {
   @override
   Widget build(BuildContext context) {
+    recent = box.get('recent1')!;
     final double screenhight = MediaQuery.of(context).size.height;
     final double screenwidth = MediaQuery.of(context).size.width;
     return ScaffoldGradientBackground(
@@ -42,72 +40,73 @@ class _FavoritesState extends State<Favorites> {
           Column(
             children: [
               ListTile(
-                leading: Container(
-                  child: GestureDetector(
-                    onTap: () => Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) => const MainScreen())),
-                        (route) => false),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white.withOpacity(.1),
-                      child: const Center(
-                          child: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.white,
-                        size: 19,
-                      )),
-                    ),
-                  ),
-                ),
-                title: Center(
-                  child: GradientText(
-                    colors: const [
-                      Color.fromARGB(255, 125, 184, 170),
-                      Color.fromARGB(255, 116, 91, 91)
-                    ],
-                    'Favorite          ',
-                    style: const TextStyle(
-                        fontSize: 25, fontWeight: FontWeight.w700),
+                leading: GestureDetector(
+                  onTap: () => Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => const MainScreen())),
+                      (route) => false),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white.withOpacity(.1),
+                    child: const Center(
+                        child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.white,
+                      size: 18,
+                    )),
                   ),
                 ),
               ),
-
-              // SizedBox(
-              //   height: screenhight / 100,
-              // ),
-              // SizedBox(
-              //   height: screenhight / 100,
-              // ),
+              Center(
+                child: GradientText(
+                  colors: const [
+                    Color.fromARGB(255, 125, 184, 170),
+                    Color.fromARGB(255, 116, 91, 91)
+                  ],
+                  'Recents',
+                  style: const TextStyle(
+                      fontSize: 25, fontWeight: FontWeight.w700),
+                ),
+              ),
+              SizedBox(
+                height: screenhight / 40,
+              ),
               Center(
                 child: Card(
+                  shadowColor: Colors.black,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
+                      borderRadius: BorderRadius.circular(9)),
                   child: Container(
                     height: screenhight / 3.5,
                     width: screenwidth / 2,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(9),
                         image: const DecorationImage(
                             fit: BoxFit.cover,
                             image: AssetImage(
-                                'assets/Microphone-background-sound-waves-energy-Music.webp'))),
+                                'assets/female-rock-singers-of-the-2000s-and-2010s.jpg'))),
                   ),
                 ),
               ),
               SizedBox(
                 height: screenhight / 25,
               ),
-
-              //favoritesongs == null || favoritesongs == []
-              favoritesongs!.isEmpty
+              recent.isEmpty
                   ? Expanded(
-                      child: const Center(
-                          child: Text(
-                      'No Favorite',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    )))
+                      child: Container(
+                        child: GradientText(
+                          colors: const [
+                            Color.fromARGB(255, 125, 184, 170),
+                            Color.fromARGB(255, 116, 91, 91)
+                          ],
+                          'No Recents',
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    )
                   : Expanded(
                       flex: 8,
                       child: ListView.builder(
@@ -115,23 +114,6 @@ class _FavoritesState extends State<Favorites> {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () async {
-                              recent1 = box.get('recent1')!;
-                              final isinrecent = recent1
-                                  .where(((element) =>
-                                      element.id.toString() ==
-                                      favoritesongs![index].id.toString()))
-                                  .toList();
-                              if (isinrecent.isEmpty) {
-                                recent1.add(favoritesongs![index]);
-                                recent1 = recent1.reversed.toList();
-                                if (recent1.length >= 5) {
-                                  recent1.removeLast();
-                                }
-                                recent1 = recent1.reversed.toList();
-                                await box.put('recent1', recent1);
-                                // recent = box.get('recent1')!.toList();
-                              }
-
                               showBottomSheet(
                                 backgroundColor: const Color(0xFF52796F),
                                 shape: const RoundedRectangleBorder(
@@ -143,8 +125,8 @@ class _FavoritesState extends State<Favorites> {
                                     height: screenhight / 9,
                                     child: MiniPlayer()),
                               );
-                              for (var element in favoritesongs!) {
-                                playlikedsong
+                              for (var element in recent) {
+                                rcentaudio
                                     .add(Audio.file(element.uri.toString(),
                                         metas: Metas(
                                           title: element.title,
@@ -155,9 +137,9 @@ class _FavoritesState extends State<Favorites> {
                               }
 
                               await AssetAudioPlay(
-                                      audioconvertedsongs: playlikedsong,
+                                      audioconvertedsongs: rcentaudio,
                                       index: index)
-                                  .songPlayNow(playlikedsong, index);
+                                  .songPlayNow(rcentaudio, index);
 
                               // Navigator.push(
                               //     context,
@@ -168,12 +150,11 @@ class _FavoritesState extends State<Favorites> {
                               //             ))));
                             },
                             child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 12, top: 2, right: 12, bottom: 2),
+                              padding: const EdgeInsets.fromLTRB(12, 2, 12, 2),
                               child: Card(
                                 color: Colors.white.withOpacity(.1),
                                 child: ListTile(
-                                  contentPadding: const EdgeInsets.all(6),
+                                  contentPadding: EdgeInsets.all(6),
                                   leading: Container(
                                     // padding: EdgeInsets.only(
                                     //     top: screenwidth / 50, bottom: screenwidth / 50),
@@ -185,7 +166,7 @@ class _FavoritesState extends State<Favorites> {
                                             nullArtworkWidget: Image.asset(
                                               "assets/best-rap-songs-1583527287.png",
                                             ),
-                                            id: favoritesongs![index].id
+                                            id: recent[index].id
                                             // int.parse(audioconvertedsongs[index]
                                             //     .metas
                                             //     .id
@@ -206,7 +187,7 @@ class _FavoritesState extends State<Favorites> {
                                             margin: const EdgeInsets.only(
                                                 right: 13),
                                             child: Text(
-                                              favoritesongs![index].title!,
+                                              recent[index].title!,
                                               overflow: TextOverflow.ellipsis,
                                               style: const TextStyle(
                                                   color: Colors.white),
@@ -216,8 +197,7 @@ class _FavoritesState extends State<Favorites> {
                                             width: screenwidth / 3,
                                             margin: const EdgeInsets.only(
                                                 right: 13),
-                                            child: favoritesongs![index]
-                                                        .artist ==
+                                            child: recent[index].artist ==
                                                     '<unknown>'
                                                 ? const Text(
                                                     'unknown artist',
@@ -226,8 +206,7 @@ class _FavoritesState extends State<Favorites> {
                                                         color: Colors.white),
                                                   )
                                                 : Text(
-                                                    favoritesongs![index]
-                                                        .artist!,
+                                                    recent[index].artist!,
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     style: const TextStyle(
@@ -240,26 +219,21 @@ class _FavoritesState extends State<Favorites> {
                                     ],
                                   ),
 
-                                  trailing: GestureDetector(
-                                    onTap: () async {
-                                      favoritesongs!.removeAt(index);
+                                  // trailing: GestureDetector(
+                                  //   onTap: () async {
+                                  //     favoritesongs!.removeAt(index);
 
-                                      await favoritebox.put(
-                                          'favorite', favoritesongs!);
+                                  //     await favoritebox.put('favorite', favoritesongs!);
 
-                                      setState(() {
-                                        favoritesongs =
-                                            favoritebox.get('favorite');
-                                      });
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                              SnackBar1().removefavorite);
-                                    },
-                                    child: Icon(
-                                      Icons.favorite,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                                  //     setState(() {
+                                  //       favoritesongs = favoritebox.get('favorite');
+                                  //     });
+                                  //   },
+                                  //   child: Icon(
+                                  //     Icons.favorite,
+                                  //     color: Colors.white,
+                                  //   ),
+                                  // ),
                                   // trailing: GestureDetector(
                                   //   onTap: () => Dialogbox2(context),
                                   //   child: Row(
@@ -281,9 +255,8 @@ class _FavoritesState extends State<Favorites> {
                             ),
                           );
                         },
-                        itemCount: favoritesongs!.length,
+                        itemCount: recent.length,
                       )),
-
               // Expanded(
               //   child: ListView.builder(
               //     itemBuilder: (context, index) {
@@ -351,7 +324,7 @@ class _FavoritesState extends State<Favorites> {
             ],
           ),
           Positioned(
-            bottom: screenhight / 200,
+            bottom: 0,
             child: audioplayer.builderCurrent(
                 builder: ((context, Playing? playing) =>
                     //  showBottomSheet(
@@ -375,38 +348,26 @@ class _FavoritesState extends State<Favorites> {
       )),
     );
   }
-
-  // @override
-  // void didChangeDependencies() {
-  //   favoritesongs = favoritebox.get('favorite');
-  //   // TODO: implement didChangeDependencies
-  //   super.didChangeDependencies();
-  // }
 }
 
-// Future<void> Dialogbox2(context) async {
-//   showDialog(
-//       context: context,
-//       builder: (ctx1) {
-//         return Container(
-//           width: 40,
-//           child: AlertDialog(
-//             actions: [
-//               TextButton(
-//                   onPressed: () async {
-//                     Navigator.of(ctx1).pop();
-//                   },
-//                   child: Center(
-//                     child: Text(
-//                       'Remove',
-//                       style: TextStyle(color: Color.fromARGB(255, 50, 74, 68)),
-//                     ),
-//                   )),
-//               SizedBox(
-//                 width: 13,
-//               )
-//             ],
-//           ),
-//         );
-//       });
-// }
+Future<void> Dialogbox2(context) async {
+  showDialog(
+      context: context,
+      builder: (ctx1) {
+        return AlertDialog(
+          actions: [
+            TextButton(
+                onPressed: () async {
+                  Navigator.of(ctx1).pop();
+                },
+                child: const Text(
+                  'Remove',
+                  style: TextStyle(color: Color.fromARGB(255, 50, 74, 68)),
+                )),
+            const SizedBox(
+              width: 13,
+            )
+          ],
+        );
+      });
+}

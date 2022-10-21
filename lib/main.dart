@@ -4,7 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_pro_1/db/allsongstoringclass.dart';
 import 'package:music_pro_1/db/boxinstance.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
-import 'package:music_pro_1/spalashscreen.dart';
+import 'package:music_pro_1/presentation/splashscreen/spalashscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -27,11 +27,11 @@ void main() async {
 
   favoritesongs = favoritebox.get('favorite');
   final playlistbox = Boxes.getInstance();
-  final pref = await SharedPreferences.getInstance();
-  await pref.setBool('isturnon', false);
+  // final pref = await SharedPreferences.getInstance();
+  // await pref.setBool('isturnon', false);
 
-  final Pref1 = await SharedPreferences.getInstance();
-  final notificationon = Pref1.getBool('isturnon')!;
+  // final Pref1 = await SharedPreferences.getInstance();
+  // final notificationon = Pref1.getBool('isturnon')!;
 
   sheredprefenrenceinitial();
 

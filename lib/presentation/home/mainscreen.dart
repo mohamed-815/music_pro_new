@@ -2,16 +2,18 @@ import 'dart:developer';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
+import 'package:music_pro_1/db/dbfetching.dart';
 
 import 'package:music_pro_1/funtion.dart';
-import 'package:music_pro_1/miniplayer.dart';
-import 'package:music_pro_1/play%20list/addplaylist.dart';
-import 'package:music_pro_1/play%20list/favorite.dart';
-import 'package:music_pro_1/play%20list/recent.dart';
-import 'package:music_pro_1/widjet1/allsongs.dart';
-import 'package:music_pro_1/widjet1/draw.dart';
-import 'package:music_pro_1/widjet1/search.dart';
+import 'package:music_pro_1/presentation/commonwidgets/miniplayer.dart';
+import 'package:music_pro_1/presentation/playlist/addplaylist.dart';
+import 'package:music_pro_1/presentation/favorite/favorite.dart';
+import 'package:music_pro_1/presentation/recent/recent.dart';
+import 'package:music_pro_1/presentation/commonwidgets/allsongs.dart';
+import 'package:music_pro_1/presentation/commonwidgets/draw.dart';
+import 'package:music_pro_1/presentation/search/search.dart';
 import 'package:scaffold_gradient_background/scaffold_gradient_background.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
@@ -115,7 +117,7 @@ class _MainScreenState extends State<MainScreen> {
                                       MaterialPageRoute(
                                           builder: ((context) =>
                                               const AddPlayList())));
-                                } else if (SongList[index].title == 'Recent') {
+                                } else if (SongList[index].title == 'Recents') {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -188,15 +190,28 @@ class _MainScreenState extends State<MainScreen> {
                     // SizedBox(
                     //   height: screenheight / 50,
                     // ),
-                    GradientText(
-                      colors: const [
-                        Color.fromARGB(255, 125, 184, 170),
-                        Color.fromARGB(255, 116, 91, 91)
-                      ],
-                      'All Songs',
-                      style: const TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
+
+                    dbsongs.isEmpty
+                        ? GradientText(
+                            colors: const [
+                              Color.fromARGB(255, 125, 184, 170),
+                              Color.fromARGB(255, 116, 91, 91)
+                            ],
+                            'No Songs',
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          )
+                        : GradientText(
+                            colors: const [
+                              Color.fromARGB(255, 125, 184, 170),
+                              Color.fromARGB(255, 116, 91, 91)
+                            ],
+                            'All Songs',
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
                     SizedBox(
                       height: screenheight / 50,
                     ),
@@ -204,7 +219,7 @@ class _MainScreenState extends State<MainScreen> {
                   ],
                 ),
                 Positioned(
-                  bottom: screenheight / 200,
+                  bottom: 0,
                   child: audioplayer.builderCurrent(
                       builder: ((context, Playing? playing) =>
                           //  showBottomSheet(
@@ -293,6 +308,6 @@ class _MainScreenState extends State<MainScreen> {
 // }
 
 sheredprefenrenceinitial() async {
-  // final pref3 = await SharedPreferences.getInstance();
-  // notificationison5 = pref3.getBool('isturnon')!;
+  SharedPreferences pref3 = await SharedPreferences.getInstance();
+  notificationison5 = pref3.getBool('isturnon')!;
 }

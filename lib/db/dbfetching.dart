@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 bool nowplay = false;
 
 bool notificationison = false;
-bool? notificationison5;
+bool notificationison5 = false;
 
 List<SongModel>? fetchedsongs;
 List<AllSongs>? allsongs;

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
-import 'package:music_pro_1/mainscreen.dart';
+import 'package:music_pro_1/presentation/home/mainscreen.dart';
 
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatefulWidget {
@@ -143,20 +144,26 @@ class _SettingsState extends State<Settings> {
                 ],
               ),
             ),
-            ListTile(
-              leading: const Icon(
-                Icons.share,
-                color: Colors.white,
-              ),
-              title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    'Share',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
+            GestureDetector(
+              onTap: () {
+                Share.share(
+                    'https://play.google.com/store/apps/details?id=in.mohamedkutty.music_pro');
+              },
+              child: ListTile(
+                leading: const Icon(
+                  Icons.share,
+                  color: Colors.white,
+                ),
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Share',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
               ),
             ),
             ListTile(
@@ -198,11 +205,11 @@ class _SettingsState extends State<Settings> {
                 Column(
                   children: [
                     const Text(
-                      'vertion',
+                      'version',
                       style: TextStyle(color: Colors.grey),
                     ),
                     const Text(
-                      '1.0',
+                      '1.1',
                       style: TextStyle(color: Colors.grey),
                     )
                   ],

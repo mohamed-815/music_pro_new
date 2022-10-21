@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:music_pro_1/db/allsongstoringclass.dart';
 import 'package:music_pro_1/db/boxinstance.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
-import 'package:music_pro_1/play%20list/insideplaylist.dart';
-import 'package:music_pro_1/widjet1/showdialogbox.dart';
-import 'package:music_pro_1/widjet1/snackbars.dart';
+import 'package:music_pro_1/presentation/playlist/insideplaylist.dart';
+import 'package:music_pro_1/presentation/commonwidgets/showdialogbox.dart';
+import 'package:music_pro_1/presentation/commonwidgets/snackbars.dart';
 
 class PlayListlist extends StatefulWidget {
   AllSongs? songtoplaylist;

@@ -3,10 +3,10 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 
-import 'package:music_pro_1/play%20list/addplaylist.dart';
-import 'package:music_pro_1/play%20list/favorite.dart';
-import 'package:music_pro_1/play%20list/recent.dart';
-import 'package:music_pro_1/settings.dart';
+import 'package:music_pro_1/presentation/playlist/addplaylist.dart';
+import 'package:music_pro_1/presentation/favorite/favorite.dart';
+import 'package:music_pro_1/presentation/recent/recent.dart';
+import 'package:music_pro_1/presentation/settings/settings.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class Drawer1 extends StatelessWidget {

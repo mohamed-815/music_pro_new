@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
-import 'package:music_pro_1/widjet1/snackbars.dart';
+import 'package:music_pro_1/presentation/commonwidgets/snackbars.dart';
 
 class ShowdialogeEdit extends StatefulWidget {
   String? playlistcurrentname;

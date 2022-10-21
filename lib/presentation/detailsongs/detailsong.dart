@@ -11,8 +11,8 @@ import 'package:marquee/marquee.dart';
 import 'package:music_pro_1/db/boxinstance.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
 import 'package:music_pro_1/funtion.dart';
-import 'package:music_pro_1/mainscreen.dart';
-import 'package:music_pro_1/widjet1/showbottomsheetplaylist.dart';
+import 'package:music_pro_1/presentation/home/mainscreen.dart';
+import 'package:music_pro_1/presentation/commonwidgets/showbottomsheetplaylist.dart';
 
 import 'package:on_audio_query/on_audio_query.dart';
 

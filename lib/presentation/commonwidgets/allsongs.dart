@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:music_pro_1/db/audioplay.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
-import 'package:music_pro_1/miniplayer.dart';
-import 'package:music_pro_1/play%20list/favorite.dart';
-import 'package:music_pro_1/widjet1/showbottomsheetplaylist.dart';
-import 'package:music_pro_1/widjet1/snackbars.dart';
+import 'package:music_pro_1/presentation/commonwidgets/miniplayer.dart';
+import 'package:music_pro_1/presentation/favorite/favorite.dart';
+import 'package:music_pro_1/presentation/commonwidgets/showbottomsheetplaylist.dart';
+import 'package:music_pro_1/presentation/commonwidgets/snackbars.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class AllSongs1 extends StatefulWidget {

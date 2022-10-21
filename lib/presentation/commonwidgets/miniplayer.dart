@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 import 'package:music_pro_1/db/allsongstoringclass.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
-import 'package:music_pro_1/detailsong.dart';
+import 'package:music_pro_1/presentation/detailsongs/detailsong.dart';
 import 'package:music_pro_1/funtion.dart';
 
 class MiniPlayer extends StatefulWidget {

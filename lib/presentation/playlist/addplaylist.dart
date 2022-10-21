@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
 
 import 'package:music_pro_1/funtion.dart';
-import 'package:music_pro_1/mainscreen.dart';
+import 'package:music_pro_1/presentation/home/mainscreen.dart';
 
-import 'package:music_pro_1/widjet1/allsongs.dart';
-import 'package:music_pro_1/widjet1/playlistlist.dart';
-import 'package:music_pro_1/widjet1/snackbars.dart';
+import 'package:music_pro_1/presentation/commonwidgets/allsongs.dart';
+import 'package:music_pro_1/presentation/commonwidgets/playlistlist.dart';
+import 'package:music_pro_1/presentation/commonwidgets/snackbars.dart';
 
 import 'package:scaffold_gradient_background/scaffold_gradient_background.dart';
 
-import '../miniplayer.dart';
+import '../commonwidgets/miniplayer.dart';
 
 class AddPlayList extends StatefulWidget {
   const AddPlayList({
@@ -338,7 +338,7 @@ class _AddPlayListState extends State<AddPlayList> {
             ],
           ),
           Positioned(
-            bottom: screenhight / 200,
+            bottom: 0,
             child: PlayerBuilder.isPlaying(
                 player: audioplayer,
                 builder: (context, isPlaying) {

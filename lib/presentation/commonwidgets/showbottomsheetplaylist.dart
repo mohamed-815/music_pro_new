@@ -2,8 +2,8 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 
 import 'package:music_pro_1/db/dbfetching.dart';
-import 'package:music_pro_1/widjet1/allsongs.dart';
-import 'package:music_pro_1/widjet1/snackbars.dart';
+import 'package:music_pro_1/presentation/commonwidgets/allsongs.dart';
+import 'package:music_pro_1/presentation/commonwidgets/snackbars.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class ShowbottomList extends StatefulWidget {

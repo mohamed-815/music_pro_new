@@ -6,8 +6,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_pro_1/db/audioplay.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
-import 'package:music_pro_1/miniplayer.dart';
-import 'package:music_pro_1/widjet1/allsongforplaylist.dart';
+import 'package:music_pro_1/presentation/commonwidgets/miniplayer.dart';
+import 'package:music_pro_1/presentation/commonwidgets/allsongforplaylist.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:scaffold_gradient_background/scaffold_gradient_background.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -79,9 +79,8 @@ class _InsidePlaylistState extends State<InsidePlaylist> {
                     ),
                     GradientText(
                       colors: const [
-                        Color.fromARGB(255, 29, 38, 46),
-                        Color.fromARGB(255, 70, 32, 29),
-                        Color.fromARGB(255, 32, 86, 80),
+                        Color.fromARGB(255, 212, 231, 227),
+                        Color.fromARGB(255, 225, 213, 213)
                       ],
                       widget.playlistname.toString(),
                       style: const TextStyle(
@@ -114,7 +113,7 @@ class _InsidePlaylistState extends State<InsidePlaylist> {
                             width: screenwidth / 10,
                             child: Icon(
                               Icons.add,
-                              color: Colors.black,
+                              color: Colors.white,
                               size: 30,
                               shadows: [],
                             )))),
