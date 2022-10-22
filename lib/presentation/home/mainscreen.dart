@@ -2,10 +2,13 @@ import 'dart:developer';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/utils.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
 
 import 'package:music_pro_1/funtion.dart';
 import 'package:music_pro_1/presentation/commonwidgets/miniplayer.dart';
+import 'package:music_pro_1/presentation/home/mainscreencontroller.dart';
 import 'package:music_pro_1/presentation/playlist/addplaylist.dart';
 import 'package:music_pro_1/presentation/favorite/favorite.dart';
 import 'package:music_pro_1/presentation/recent/recent.dart';
@@ -16,6 +19,8 @@ import 'package:scaffold_gradient_background/scaffold_gradient_background.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+
+MainScreenController mainScreenController = Get.put(MainScreenController());
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -96,82 +101,89 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                     Flexible(
                         flex: 4,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: SongList.length,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                if (SongList[index].title == 'Favorite') {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: ((context) =>
-                                            const Favorites())),
-                                  );
-                                } else if (SongList[index].title ==
-                                    'Play List') {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: ((context) =>
-                                              const AddPlayList())));
-                                } else if (SongList[index].title == 'Recents') {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: ((context) =>
-                                              const Recent1())));
-                                }
-                              },
-                              child: Container(
-                                child: Column(children: [
-                                  Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8, vertical: 0),
-                                        child: Card(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8)),
-                                          child: Container(
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              child: Image.asset(
-                                                SongList[index]
-                                                    .image
-                                                    .toString(),
-                                                fit: BoxFit.cover,
-                                                width: screenwidth / 2.5,
-                                                height: screenheight * 0.23,
+                        child: Obx(() => ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: mainScreenController.SongList.length,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    if (mainScreenController
+                                            .SongList[index].title ==
+                                        'Favorite') {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: ((context) =>
+                                                const Favorites())),
+                                      );
+                                    } else if (mainScreenController
+                                            .SongList[index].title ==
+                                        'Play List') {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: ((context) =>
+                                                  const AddPlayList())));
+                                    } else if (mainScreenController
+                                            .SongList[index].title ==
+                                        'Recents') {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: ((context) =>
+                                                  const Recent1())));
+                                    }
+                                  },
+                                  child: Container(
+                                    child: Column(children: [
+                                      Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8, vertical: 0),
+                                            child: Card(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8)),
+                                              child: Container(
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  child: Image.asset(
+                                                    mainScreenController
+                                                        .SongList[index].image
+                                                        .toString(),
+                                                    fit: BoxFit.cover,
+                                                    width: screenwidth / 2.5,
+                                                    height: screenheight * 0.23,
+                                                  ),
+                                                ),
+                                                // decoration: BoxDecoration(
+                                                //   borderRadius:
+                                                //       BorderRadius.circular(8),
+                                                // ),
                                               ),
                                             ),
-                                            // decoration: BoxDecoration(
-                                            //   borderRadius:
-                                            //       BorderRadius.circular(8),
-                                            // ),
                                           ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: screenheight / 100,
-                                      ),
-                                      Text(
-                                        SongList[index].title.toString(),
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
+                                          SizedBox(
+                                            height: screenheight / 100,
+                                          ),
+                                          Text(
+                                            mainScreenController
+                                                .SongList[index].title
+                                                .toString(),
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          )
+                                        ],
                                       )
-                                    ],
-                                  )
-                                ]),
-                              ),
-                            );
-                          },
-                        )
+                                    ]),
+                                  ),
+                                );
+                              },
+                            ))
 
                         // GridView.count(
                         //   shrinkWrap: true,

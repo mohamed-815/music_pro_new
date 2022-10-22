@@ -36,6 +36,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_screenutil: ^5.5.4
+  get: ^4.6.5
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   just_audio: ^0.9.28
