@@ -7,6 +7,7 @@ import 'package:get/utils.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
 
 import 'package:music_pro_1/funtion.dart';
+import 'package:music_pro_1/main.dart';
 import 'package:music_pro_1/presentation/commonwidgets/miniplayer.dart';
 import 'package:music_pro_1/presentation/home/mainscreencontroller.dart';
 import 'package:music_pro_1/presentation/playlist/addplaylist.dart';
@@ -22,21 +23,8 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 MainScreenController mainScreenController = Get.put(MainScreenController());
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends StatelessWidget {
   const MainScreen({Key? key}) : super(key: key);
-
-  @override
-  State<MainScreen> createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
-  @override
-  void initState() {
-    sheredprefenrenceinitial();
-    // notificationison = await Pref3.getBool('isturnon')!;
-    // TODO: implement initState
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -203,7 +191,7 @@ class _MainScreenState extends State<MainScreen> {
                     //   height: screenheight / 50,
                     // ),
 
-                    dbsongs.isEmpty
+                    dbSongController.dbsongs.isEmpty
                         ? GradientText(
                             colors: const [
                               Color.fromARGB(255, 125, 184, 170),
@@ -319,7 +307,4 @@ class _MainScreenState extends State<MainScreen> {
 //   }
 // }
 
-sheredprefenrenceinitial() async {
-  SharedPreferences pref3 = await SharedPreferences.getInstance();
-  notificationison5 = pref3.getBool('isturnon')!;
-}
+

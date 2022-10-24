@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:music_pro_1/db/audioplay.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
 import 'package:music_pro_1/funtion.dart';
+import 'package:music_pro_1/main.dart';
 import 'package:music_pro_1/presentation/home/mainscreen.dart';
 import 'package:music_pro_1/presentation/commonwidgets/miniplayer.dart';
 
@@ -25,7 +26,7 @@ class _Recent1State extends State<Recent1> {
 
   @override
   Widget build(BuildContext context) {
-    recent = box.get('recent1')!;
+    dbSongController.recent = dbSongController.box.get('recent1')!;
     final double screenhight = MediaQuery.of(context).size.height;
     final double screenwidth = MediaQuery.of(context).size.width;
     return ScaffoldGradientBackground(
@@ -91,7 +92,7 @@ class _Recent1State extends State<Recent1> {
               SizedBox(
                 height: screenhight / 25,
               ),
-              recent.isEmpty
+              dbSongController.recent.isEmpty
                   ? Expanded(
                       child: Container(
                         child: GradientText(
@@ -125,7 +126,7 @@ class _Recent1State extends State<Recent1> {
                                     height: screenhight / 9,
                                     child: MiniPlayer()),
                               );
-                              for (var element in recent) {
+                              for (var element in dbSongController.recent) {
                                 rcentaudio
                                     .add(Audio.file(element.uri.toString(),
                                         metas: Metas(
@@ -166,7 +167,8 @@ class _Recent1State extends State<Recent1> {
                                             nullArtworkWidget: Image.asset(
                                               "assets/best-rap-songs-1583527287.png",
                                             ),
-                                            id: recent[index].id
+                                            id: dbSongController
+                                                .recent[index].id
                                             // int.parse(audioconvertedsongs[index]
                                             //     .metas
                                             //     .id
@@ -187,7 +189,8 @@ class _Recent1State extends State<Recent1> {
                                             margin: const EdgeInsets.only(
                                                 right: 13),
                                             child: Text(
-                                              recent[index].title!,
+                                              dbSongController
+                                                  .recent[index].title!,
                                               overflow: TextOverflow.ellipsis,
                                               style: const TextStyle(
                                                   color: Colors.white),
@@ -197,7 +200,8 @@ class _Recent1State extends State<Recent1> {
                                             width: screenwidth / 3,
                                             margin: const EdgeInsets.only(
                                                 right: 13),
-                                            child: recent[index].artist ==
+                                            child: dbSongController
+                                                        .recent[index].artist ==
                                                     '<unknown>'
                                                 ? const Text(
                                                     'unknown artist',
@@ -206,7 +210,8 @@ class _Recent1State extends State<Recent1> {
                                                         color: Colors.white),
                                                   )
                                                 : Text(
-                                                    recent[index].artist!,
+                                                    dbSongController
+                                                        .recent[index].artist!,
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     style: const TextStyle(
@@ -255,7 +260,7 @@ class _Recent1State extends State<Recent1> {
                             ),
                           );
                         },
-                        itemCount: recent.length,
+                        itemCount: dbSongController.recent.length,
                       )),
               // Expanded(
               //   child: ListView.builder(

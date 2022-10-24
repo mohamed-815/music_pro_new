@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 import 'package:music_pro_1/db/allsongstoringclass.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
+import 'package:music_pro_1/main.dart';
 import 'package:music_pro_1/presentation/detailsongs/detailsong.dart';
 import 'package:music_pro_1/funtion.dart';
 
@@ -32,8 +33,9 @@ class _MiniPlayerState extends State<MiniPlayer> {
                   )))),
       child: Center(
         child: audioplayer.builderCurrent(builder: (context, Playing? playing) {
-          final miniplayersongdetail =
-              find(audioconvertedsongs, playing!.audio.assetAudioPath);
+          final miniplayersongdetail = find(
+              dbSongController.audioconvertedsongs,
+              playing!.audio.assetAudioPath);
           return Container(
             height: screenhieght / 9,
             width: screenwidth,
@@ -74,25 +76,29 @@ class _MiniPlayerState extends State<MiniPlayer> {
                     children: [
                       GestureDetector(
                         onTap: () async {
-                          recent1 = box.get('recent1')!;
-                          final isinrecent = recent1
+                          dbSongController.recent1 =
+                              dbSongController.box.get('recent1')!;
+                          final isinrecent = dbSongController.recent1
                               .where(((element) =>
                                   element.id.toString() ==
                                   miniplayersongdetail.metas.id.toString()))
                               .toList();
                           if (isinrecent.isEmpty) {
-                            final songmodelsong = dbsongs.firstWhere(
-                                (element) =>
+                            final songmodelsong = dbSongController.dbsongs
+                                .firstWhere((element) =>
                                     element.id.toString() ==
                                     miniplayersongdetail.metas.id.toString());
 
-                            recent1.add(songmodelsong);
-                            recent1 = recent1.reversed.toList();
-                            if (recent1.length >= 5) {
-                              recent1.removeLast();
+                            dbSongController.recent1.add(songmodelsong);
+                            dbSongController.recent1 =
+                                dbSongController.recent1.reversed.toList();
+                            if (dbSongController.recent1.length >= 5) {
+                              dbSongController.recent1.removeLast();
                             }
-                            recent1 = recent1.reversed.toList();
-                            await box.put('recent1', recent1);
+                            dbSongController.recent1 =
+                                dbSongController.recent1.reversed.toList();
+                            await dbSongController.box
+                                .put('recent1', dbSongController.recent1);
                             // recent = box.get('recent1')!.toList();
                           }
 
@@ -123,25 +129,29 @@ class _MiniPlayerState extends State<MiniPlayer> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          recent1 = box.get('recent1')!;
-                          final isinrecent = recent1
+                          dbSongController.recent1 =
+                              dbSongController.box.get('recent1')!;
+                          final isinrecent = dbSongController.recent1
                               .where(((element) =>
                                   element.id.toString() ==
                                   miniplayersongdetail.metas.id.toString()))
                               .toList();
                           if (isinrecent.isEmpty) {
-                            final songmodelsong = dbsongs.firstWhere(
-                                (element) =>
+                            final songmodelsong = dbSongController.dbsongs
+                                .firstWhere((element) =>
                                     element.id.toString() ==
                                     miniplayersongdetail.metas.id.toString());
 
-                            recent1.add(songmodelsong);
-                            recent1 = recent1.reversed.toList();
-                            if (recent1.length >= 5) {
-                              recent1.removeLast();
+                            dbSongController.recent1.add(songmodelsong);
+                            dbSongController.recent1 =
+                                dbSongController.recent1.reversed.toList();
+                            if (dbSongController.recent1.length >= 5) {
+                              dbSongController.recent1.removeLast();
                             }
-                            recent1 = recent1.reversed.toList();
-                            await box.put('recent1', recent1);
+                            dbSongController.recent1 =
+                                dbSongController.recent1.reversed.toList();
+                            await dbSongController.box
+                                .put('recent1', dbSongController.recent1);
                             // recent = box.get('recent1')!.toList();
                           }
                           audioplayer.next();

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
+import 'package:music_pro_1/db/dbsongcontroller/dbsongcontroller.dart';
+import 'package:music_pro_1/db/dbsongcontroller/dbsongcontroller.dart';
+import 'package:music_pro_1/main.dart';
 import 'package:music_pro_1/presentation/commonwidgets/snackbars.dart';
 
 class ShowdialogeEdit extends StatefulWidget {
@@ -129,9 +132,10 @@ class _ShowdialogeEditState extends State<ShowdialogeEdit> {
     List<dynamic> freelist =
         playlistbox.get(widget.playlistcurrentname)!.toList();
     List? excistingName = [];
-    if (playlists.isNotEmpty) {
-      excistingName =
-          playlists.where((element) => element == controller.text).toList();
+    if (dbSongController.playlists.isNotEmpty) {
+      excistingName = dbSongController.playlists
+          .where((element) => element == controller.text)
+          .toList();
     }
 
     if (controller.text != '' &&
@@ -142,7 +146,7 @@ class _ShowdialogeEditState extends State<ShowdialogeEdit> {
       Navigator.of(context).pop();
 
       setState(() {
-        playlistkeys = playlistbox.keys.toList();
+        dbSongController.playlistkeys = playlistbox.keys.toList();
       });
     }
 

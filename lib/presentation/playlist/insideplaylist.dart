@@ -6,6 +6,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_pro_1/db/audioplay.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
+import 'package:music_pro_1/db/dbsongcontroller/dbsongcontroller.dart';
+import 'package:music_pro_1/main.dart';
 import 'package:music_pro_1/presentation/commonwidgets/miniplayer.dart';
 import 'package:music_pro_1/presentation/commonwidgets/allsongforplaylist.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -126,7 +128,8 @@ class _InsidePlaylistState extends State<InsidePlaylist> {
           ValueListenableBuilder(
             valueListenable: playlistbox.listenable(),
             builder: (BuildContext context, Boxes, _) {
-              playlistsongs1 = playlistbox.get(widget.playlistname)!;
+              dbSongController.playlistsongs1 =
+                  playlistbox.get(widget.playlistname)!;
 
               return Expanded(
                   flex: 8,
@@ -135,20 +138,26 @@ class _InsidePlaylistState extends State<InsidePlaylist> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () async {
-                          recent1 = box.get('recent1')!;
-                          final isinrecent = recent1
+                          dbSongController.recent1 =
+                              dbSongController.box.get('recent1')!;
+                          final isinrecent = dbSongController.recent1
                               .where(((element) =>
                                   element.id.toString() ==
-                                  playlistsongs1[index].id.toString()))
+                                  dbSongController.playlistsongs1[index].id
+                                      .toString()))
                               .toList();
                           if (isinrecent.isEmpty) {
-                            recent1.add(playlistsongs1[index]);
-                            recent1 = recent1.reversed.toList();
-                            if (recent1.length >= 5) {
-                              recent1.removeLast();
+                            dbSongController.recent1
+                                .add(dbSongController.playlistsongs1[index]);
+                            dbSongController.recent1 =
+                                dbSongController.recent1.reversed.toList();
+                            if (dbSongController.recent1.length >= 5) {
+                              dbSongController.recent1.removeLast();
                             }
-                            recent1 = recent1.reversed.toList();
-                            await box.put('recent1', recent1);
+                            dbSongController.recent1 =
+                                dbSongController.recent1.reversed.toList();
+                            await dbSongController.box
+                                .put('recent1', dbSongController.recent1);
                             // recent = box.get('recent1')!.toList();
                           }
 
@@ -162,7 +171,7 @@ class _InsidePlaylistState extends State<InsidePlaylist> {
                             builder: (ctx) => SizedBox(
                                 height: screenhight / 9, child: MiniPlayer()),
                           );
-                          for (var element in playlistsongs1) {
+                          for (var element in dbSongController.playlistsongs1) {
                             playlistaudio.add(Audio.file(element.uri.toString(),
                                 metas: Metas(
                                   title: element.title,
@@ -202,7 +211,8 @@ class _InsidePlaylistState extends State<InsidePlaylist> {
                                         nullArtworkWidget: Image.asset(
                                           "assets/best-rap-songs-1583527287.png",
                                         ),
-                                        id: playlistsongs1[index].id,
+                                        id: dbSongController
+                                            .playlistsongs1[index].id,
                                         type: ArtworkType.AUDIO)),
                               ),
                               title: Row(
@@ -218,7 +228,8 @@ class _InsidePlaylistState extends State<InsidePlaylist> {
                                         margin:
                                             const EdgeInsets.only(right: 13),
                                         child: Text(
-                                          playlistsongs1[index].title!,
+                                          dbSongController
+                                              .playlistsongs1[index].title!,
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
                                               color: Colors.white),
@@ -228,7 +239,9 @@ class _InsidePlaylistState extends State<InsidePlaylist> {
                                         width: screenwidth / 3,
                                         margin:
                                             const EdgeInsets.only(right: 13),
-                                        child: playlistsongs1[index].artist ==
+                                        child: dbSongController
+                                                    .playlistsongs1[index]
+                                                    .artist ==
                                                 '<unknown>'
                                             ? const Text(
                                                 'unknown artist',
@@ -237,7 +250,9 @@ class _InsidePlaylistState extends State<InsidePlaylist> {
                                                     color: Colors.white),
                                               )
                                             : Text(
-                                                playlistsongs1[index].artist!,
+                                                dbSongController
+                                                    .playlistsongs1[index]
+                                                    .artist!,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
                                                     fontSize: 12,
@@ -251,10 +266,11 @@ class _InsidePlaylistState extends State<InsidePlaylist> {
 
                               trailing: GestureDetector(
                                 onTap: () async {
-                                  playlistsongs1.removeAt(index);
+                                  dbSongController.playlistsongs1
+                                      .removeAt(index);
 
-                                  await playlistbox.put(
-                                      widget.playlistname, playlistsongs1);
+                                  await playlistbox.put(widget.playlistname,
+                                      dbSongController.playlistsongs1);
                                   setState(() {});
                                 },
                                 child: Icon(
@@ -283,7 +299,7 @@ class _InsidePlaylistState extends State<InsidePlaylist> {
                         ),
                       );
                     },
-                    itemCount: playlistsongs1.length,
+                    itemCount: dbSongController.playlistsongs1.length,
                   ));
             },
           ),

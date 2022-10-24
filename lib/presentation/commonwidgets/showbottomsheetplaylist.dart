@@ -2,6 +2,8 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 
 import 'package:music_pro_1/db/dbfetching.dart';
+import 'package:music_pro_1/db/dbsongcontroller/dbsongcontroller.dart';
+import 'package:music_pro_1/main.dart';
 import 'package:music_pro_1/presentation/commonwidgets/allsongs.dart';
 import 'package:music_pro_1/presentation/commonwidgets/snackbars.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -100,7 +102,7 @@ class _ShowbottomListState extends State<ShowbottomList> {
                                         ),
                                       ),
                                       onChanged: (value) {
-                                        value1 = value.trim();
+                                        dbSongController.value1 = value.trim();
                                       },
                                       validator: (value) {
                                         List keys = playlistbox.keys.toList();
@@ -200,7 +202,7 @@ class _ShowbottomListState extends State<ShowbottomList> {
         SizedBox(
           height: screenhieght / 70,
         ),
-        ...playlistkeys
+        ...dbSongController.playlistkeys
             .map((e) => e != 'totalsongs' && e != 'favorite' && e != 'recent1'
                 ? Padding(
                     padding: const EdgeInsets.all(8),
@@ -211,22 +213,25 @@ class _ShowbottomListState extends State<ShowbottomList> {
                         onTap: () async {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(SnackBar1().addedtoplaylist);
-                          playlistsongs1 = playlistbox.get(e)!;
+                          dbSongController.playlistsongs1 = playlistbox.get(e)!;
                           List? existingsongname = [];
-                          existingsongname = playlistsongs1
+                          existingsongname = dbSongController.playlistsongs1
                               .where((element) =>
                                   element.id.toString() ==
                                   widget.songaddplaylist!.metas.id.toString())
                               .toList();
 
                           if (existingsongname.isEmpty) {
-                            final temp = dbsongs.firstWhere((element) =>
-                                element.id.toString() ==
-                                widget.songaddplaylist!.metas.id.toString());
+                            final temp = dbSongController.dbsongs.firstWhere(
+                                (element) =>
+                                    element.id.toString() ==
+                                    widget.songaddplaylist!.metas.id
+                                        .toString());
 
-                            playlistsongs1.add(temp);
+                            dbSongController.playlistsongs1.add(temp);
 
-                            await playlistbox.put(e, playlistsongs1);
+                            await playlistbox.put(
+                                e, dbSongController.playlistsongs1);
                           }
                         },
                         leading: CircleAvatar(
@@ -296,9 +301,10 @@ class _ShowbottomListState extends State<ShowbottomList> {
                                                     }
 
                                                     setState(() {
-                                                      playlistkeys = playlistbox
-                                                          .keys
-                                                          .toList();
+                                                      dbSongController
+                                                              .playlistkeys =
+                                                          playlistbox.keys
+                                                              .toList();
                                                       // playlistkeys.removeWhere((element) =>
                                                       //     element.toString() ==
                                                       //     playlistkeys[index].toString());
@@ -348,9 +354,10 @@ class _ShowbottomListState extends State<ShowbottomList> {
     List<AllSongs1> librayry = [];
     List<dynamic> freelist = [];
     List? excistingName = [];
-    if (playlists.isNotEmpty) {
-      excistingName =
-          playlists.where((element) => element == controller.text).toList();
+    if (dbSongController.playlists.isNotEmpty) {
+      excistingName = dbSongController.playlists
+          .where((element) => element == controller.text)
+          .toList();
     }
 
     if (controller.text != '' &&
@@ -360,7 +367,7 @@ class _ShowbottomListState extends State<ShowbottomList> {
       Navigator.of(context).pop();
 
       setState(() {
-        playlistkeys = playlistbox.keys.toList();
+        dbSongController.playlistkeys = playlistbox.keys.toList();
       });
     }
 

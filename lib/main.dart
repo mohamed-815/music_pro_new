@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_pro_1/db/allsongstoringclass.dart';
 import 'package:music_pro_1/db/boxinstance.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
+import 'package:music_pro_1/db/dbsongcontroller/dbsongcontroller.dart';
+import 'package:music_pro_1/presentation/favorite/favorite.dart';
 import 'package:music_pro_1/presentation/splashscreen/spalashscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+DbSongController dbSongController = Get.put(DbSongController());
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await ScreenUtil.ensureScreenSize();
   Hive.registerAdapter(AllSongsAdapter());
   await Hive.openBox<List>('db_totalsongs');
-  await fetchSongs();
+  await dbSongController.fetchSongs();
   final favoritebox = Boxes.getInstance();
   List<dynamic> favBox = favoritebox.keys.toList();
   if (!favBox.contains("favorite")) {
@@ -25,27 +30,17 @@ void main() async {
     await favoritebox.put("recent1", favMusic);
   }
 
-  favoritesongs = favoritebox.get('favorite');
+  favoriteController.favoritesongs!.value = favoritebox.get('favorite')!;
   final playlistbox = Boxes.getInstance();
   // final pref = await SharedPreferences.getInstance();
   // await pref.setBool('isturnon', false);
 
   // final Pref1 = await SharedPreferences.getInstance();
   // final notificationon = Pref1.getBool('isturnon')!;
-  await sheredprefenrenceinitialseting();
-  sheredprefenrenceinitial();
+  await dbSongController.sheredprefenrenceinitialseting();
+  dbSongController.sheredprefenrenceinitial();
 
   runApp(MyApp());
-}
-
-sheredprefenrenceinitialseting() async {
-  final pref3 = await SharedPreferences.getInstance();
-  notificationison5 = await pref3.setBool('isturnon', false);
-}
-
-sheredprefenrenceinitial() async {
-  final pref3 = await SharedPreferences.getInstance();
-  notificationison5 = pref3.getBool('isturnon')!;
 }
 
 class MyApp extends StatelessWidget {
@@ -53,7 +48,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
     );

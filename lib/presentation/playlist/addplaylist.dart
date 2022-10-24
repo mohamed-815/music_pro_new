@@ -4,8 +4,10 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 
 import 'package:music_pro_1/db/dbfetching.dart';
+import 'package:music_pro_1/db/dbsongcontroller/dbsongcontroller.dart';
 
 import 'package:music_pro_1/funtion.dart';
+import 'package:music_pro_1/main.dart';
 import 'package:music_pro_1/presentation/home/mainscreen.dart';
 
 import 'package:music_pro_1/presentation/commonwidgets/allsongs.dart';
@@ -145,7 +147,7 @@ class _AddPlayListState extends State<AddPlayList> {
                                           ),
                                         ),
                                         onChanged: (value) {
-                                          value1 = value.trim();
+                                          //value1 = value.trim();
                                         },
                                         validator: (value) {
                                           List keys = playlistbox.keys.toList();
@@ -355,9 +357,10 @@ class _AddPlayListState extends State<AddPlayList> {
     List<AllSongs1> librayry = [];
     List<dynamic> freelist = [];
     List? excistingName = [];
-    if (playlists.isNotEmpty) {
-      excistingName =
-          playlists.where((element) => element == controller.text).toList();
+    if (dbSongController.playlists.isNotEmpty) {
+      excistingName = dbSongController.playlists
+          .where((element) => element == controller.text)
+          .toList();
     }
 
     if (controller.text != '' &&
@@ -367,7 +370,7 @@ class _AddPlayListState extends State<AddPlayList> {
       Navigator.of(context).pop();
 
       setState(() {
-        playlistkeys = playlistbox.keys.toList();
+        dbSongController.playlistkeys = playlistbox.keys.toList();
       });
     }
 

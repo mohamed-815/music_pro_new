@@ -11,6 +11,8 @@ import 'package:marquee/marquee.dart';
 import 'package:music_pro_1/db/boxinstance.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
 import 'package:music_pro_1/funtion.dart';
+import 'package:music_pro_1/main.dart';
+import 'package:music_pro_1/presentation/favorite/favorite.dart';
 import 'package:music_pro_1/presentation/home/mainscreen.dart';
 import 'package:music_pro_1/presentation/commonwidgets/showbottomsheetplaylist.dart';
 
@@ -76,15 +78,16 @@ class _DetailSongState extends State<DetailSong> {
   Widget build(BuildContext context) {
     final double screenhight = MediaQuery.of(context).size.height;
     final double screenwidth = MediaQuery.of(context).size.width;
-    favoritesongs = favoritebox.get('favorite');
+    favoriteController.favoritesongs!.value = favoritebox.get('favorite')!;
     return Scaffold(
       backgroundColor: const Color(0xFF2F3E46),
       body: audioplayer.builderCurrent(builder: (context, Playing? playing) {
-        final curentsongdetail =
-            find(audioconvertedsongs, playing!.audio.assetAudioPath);
+        final curentsongdetail = find(dbSongController.audioconvertedsongs,
+            playing!.audio.assetAudioPath);
 
-        final nowplayingsongfavorite = dbsongs.firstWhere((element) =>
-            element.id.toString() == curentsongdetail.metas.id.toString());
+        final nowplayingsongfavorite = dbSongController.dbsongs.firstWhere(
+            (element) =>
+                element.id.toString() == curentsongdetail.metas.id.toString());
 
         if (playing.audio.assetAudioPath.isEmpty) {
           return const Center(
@@ -254,7 +257,7 @@ class _DetailSongState extends State<DetailSong> {
                                 color: Colors.grey.shade200,
                               )),
 
-                    favoritesongs!
+                    favoriteController.favoritesongs!
                             .where(
                               (element) =>
                                   element.id.toString() ==
@@ -263,10 +266,13 @@ class _DetailSongState extends State<DetailSong> {
                             .isEmpty
                         ? IconButton(
                             onPressed: () async {
-                              favoritesongs?.add(nowplayingsongfavorite);
-                              await favoritebox.put('favorite', favoritesongs!);
+                              favoriteController.favoritesongs
+                                  ?.add(nowplayingsongfavorite);
+                              await favoritebox.put('favorite',
+                                  favoriteController.favoritesongs!);
                               setState(() {
-                                favoritesongs = favoritebox.get('favorite');
+                                favoriteController.favoritesongs!.value =
+                                    favoritebox.get('favorite')!;
                               });
                             },
                             icon: const Icon(
@@ -274,14 +280,16 @@ class _DetailSongState extends State<DetailSong> {
                             ))
                         : IconButton(
                             onPressed: () async {
-                              favoritesongs?.removeWhere(
+                              favoriteController.favoritesongs?.removeWhere(
                                 (element) =>
                                     element.id.toString() ==
                                     nowplayingsongfavorite.id.toString(),
                               );
-                              await favoritebox.put('favorite', favoritesongs!);
+                              await favoritebox.put('favorite',
+                                  favoriteController.favoritesongs!);
                               setState(() {
-                                favoritesongs = favoritebox.get('favorite');
+                                favoriteController.favoritesongs!.value =
+                                    favoritebox.get('favorite')!;
                               });
                             },
                             icon: const Icon(
@@ -337,24 +345,29 @@ class _DetailSongState extends State<DetailSong> {
                       await audioplayer.seekBy(const Duration(seconds: -5));
                     },
                     onTap: () async {
-                      recent1 = box.get('recent1')!;
-                      final isinrecent = recent1
+                      dbSongController.recent1 =
+                          dbSongController.box.get('recent1')!;
+                      final isinrecent = dbSongController.recent1
                           .where(((element) =>
                               element.id.toString() ==
                               curentsongdetail.metas.id.toString()))
                           .toList();
                       if (isinrecent.isEmpty) {
-                        final songmodelsong = dbsongs.firstWhere((element) =>
-                            element.id.toString() ==
-                            curentsongdetail.metas.id.toString());
+                        final songmodelsong = dbSongController.dbsongs
+                            .firstWhere((element) =>
+                                element.id.toString() ==
+                                curentsongdetail.metas.id.toString());
 
-                        recent1.add(songmodelsong);
-                        recent1 = recent1.reversed.toList();
-                        if (recent1.length >= 5) {
-                          recent1.removeLast();
+                        dbSongController.recent1.add(songmodelsong);
+                        dbSongController.recent1 =
+                            dbSongController.recent1.reversed.toList();
+                        if (dbSongController.recent1.length >= 5) {
+                          dbSongController.recent1.removeLast();
                         }
-                        recent1 = recent1.reversed.toList();
-                        await box.put('recent1', recent1);
+                        dbSongController.recent1 =
+                            dbSongController.recent1.reversed.toList();
+                        await dbSongController.box
+                            .put('recent1', dbSongController.recent1);
                         // recent = box.get('recent1')!.toList();
                       }
                       audioplayer.previous();
@@ -437,24 +450,29 @@ class _DetailSongState extends State<DetailSong> {
                         await audioplayer.seekBy(Duration(seconds: 5));
                       },
                       onTap: () async {
-                        recent1 = box.get('recent1')!;
-                        final isinrecent = recent1
+                        dbSongController.recent1 =
+                            dbSongController.box.get('recent1')!;
+                        final isinrecent = dbSongController.recent1
                             .where(((element) =>
                                 element.id.toString() ==
                                 curentsongdetail.metas.id.toString()))
                             .toList();
                         if (isinrecent.isEmpty) {
-                          final songmodelsong = dbsongs.firstWhere((element) =>
-                              element.id.toString() ==
-                              curentsongdetail.metas.id.toString());
+                          final songmodelsong = dbSongController.dbsongs
+                              .firstWhere((element) =>
+                                  element.id.toString() ==
+                                  curentsongdetail.metas.id.toString());
 
-                          recent1.add(songmodelsong);
-                          recent1 = recent1.reversed.toList();
-                          if (recent1.length >= 5) {
-                            recent1.removeLast();
+                          dbSongController.recent1.add(songmodelsong);
+                          dbSongController.recent1 =
+                              dbSongController.recent1.reversed.toList();
+                          if (dbSongController.recent1.length >= 5) {
+                            dbSongController.recent1.removeLast();
                           }
-                          recent1 = recent1.reversed.toList();
-                          await box.put('recent1', recent1);
+                          dbSongController.recent1 =
+                              dbSongController.recent1.reversed.toList();
+                          await dbSongController.box
+                              .put('recent1', dbSongController.recent1);
                           // recent = box.get('recent1')!.toList();
                         }
                         audioplayer.next();

@@ -1,25 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
+import 'package:music_pro_1/db/dbsongcontroller/dbsongcontroller.dart';
+import 'package:music_pro_1/main.dart';
 import 'package:music_pro_1/presentation/home/mainscreen.dart';
 
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Settings extends StatefulWidget {
+class Settings extends StatelessWidget {
   const Settings({Key? key}) : super(key: key);
-
-  @override
-  State<Settings> createState() => _SettingsState();
-}
-
-class _SettingsState extends State<Settings> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final double screenhight = MediaQuery.of(context).size.height;
@@ -85,24 +76,28 @@ class _SettingsState extends State<Settings> {
                   // )
                 ],
               ),
-              trailing: Switch(
-                  value: notificationison,
-                  onChanged: ((value) async {
-                    final Pref1 = await SharedPreferences.getInstance();
-                    final notificationon = Pref1.getBool('isturnon')!;
+              trailing: GetX<DbSongController>(
+                  init: DbSongController(),
+                  builder: (Val) {
+                    return Switch(
+                        value: Val.notificationison.value,
+                        onChanged: ((value) async {
+                          final Pref1 = await SharedPreferences.getInstance();
+                          final notificationon = Pref1.getBool('isturnon')!;
 
-                    if (notificationon == false) {
-                      setState(() {
-                        notificationison = true;
-                      });
-                      await Pref1.setBool('isturnon', notificationison);
-                    } else {
-                      setState(() {
-                        notificationison = false;
-                      });
-                      await Pref1.setBool('isturnon', notificationison);
-                    }
-                  })),
+                          if (notificationon == false) {
+                            Val.notificationison.value = true;
+
+                            await Pref1.setBool(
+                                'isturnon', Val.notificationison.value);
+                          } else {
+                            Val.notificationison.value = false;
+
+                            await Pref1.setBool(
+                                'isturnon', Val.notificationison.value);
+                          }
+                        }));
+                  }),
             ),
             ListTile(
               onTap: () {

@@ -1,9 +1,11 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:music_pro_1/db/allsongstoringclass.dart';
 import 'package:music_pro_1/db/audioplay.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
+import 'package:music_pro_1/main.dart';
 import 'package:music_pro_1/presentation/commonwidgets/miniplayer.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -35,35 +37,35 @@ class _SearchingListState extends State<SearchingList> {
             margin: EdgeInsets.all(screenwidth / 45),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8), color: Colors.grey),
-            child: TextFormField(
-              style: TextStyle(color: Colors.white),
-              controller: controller1,
-              onChanged: (value) {
-                // final valeu1 = value;
+            child: Obx((() => TextFormField(
+                  style: TextStyle(color: Colors.white),
+                  controller: controller1,
+                  onChanged: (value) {
+                    // final valeu1 = value;
 
-                setState(() {
-                  listsearch = dbsongs
-                      .where((element) => element.title!
-                          .toLowerCase()
-                          .contains(value.toLowerCase()))
-                      .toList();
-                });
-              },
-              decoration: InputDecoration(
-                // enabledBorder: OutlineInputBorder(
-                //   borderSide: BorderSide(
-                //     width: 20,
-                //     color: Colors.grey,
-                //   ),
-                // ),
-                hintText: '  search',
-                border: InputBorder.none,
-                prefixIcon: Icon(
-                  Icons.search_outlined,
-                  color: Color.fromARGB(255, 63, 62, 62),
-                ),
-              ),
-            ),
+                    setState(() {
+                      listsearch = dbSongController.dbsongs
+                          .where((element) => element.title!
+                              .toLowerCase()
+                              .contains(value.toLowerCase()))
+                          .toList();
+                    });
+                  },
+                  decoration: InputDecoration(
+                    // enabledBorder: OutlineInputBorder(
+                    //   borderSide: BorderSide(
+                    //     width: 20,
+                    //     color: Colors.grey,
+                    //   ),
+                    // ),
+                    hintText: '  search',
+                    border: InputBorder.none,
+                    prefixIcon: Icon(
+                      Icons.search_outlined,
+                      color: Color.fromARGB(255, 63, 62, 62),
+                    ),
+                  ),
+                ))),
           ),
           SizedBox(
             height: screenhieght / 50,

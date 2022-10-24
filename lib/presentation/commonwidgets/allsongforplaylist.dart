@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:music_pro_1/db/boxinstance.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
+import 'package:music_pro_1/main.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class AllSongs3 extends StatefulWidget {
@@ -34,34 +36,35 @@ class _AllSongs3State extends State<AllSongs3> {
           height: screenhight / 100,
         ),
         Expanded(
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () async {
-                  final ispresent = playlistsong6.where((element) =>
-                      element.id.toString() == dbsongs[index].id.toString());
+          child: Obx((() => ListView.builder(
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () async {
+                      final ispresent = playlistsong6.where((element) =>
+                          element.id.toString() ==
+                          dbSongController.dbsongs[index].id.toString());
 
-                  if (ispresent.isEmpty) {
-                    setState(() {
-                      playlistsong6.add(dbsongs[index]);
-                    });
+                      if (ispresent.isEmpty) {
+                        setState(() {
+                          playlistsong6.add(dbSongController.dbsongs[index]);
+                        });
 
-                    await box1.put(widget.playlistname1, playlistsong6);
-                  }
+                        await box1.put(widget.playlistname1, playlistsong6);
+                      }
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 12, top: 2, right: 12, bottom: 2),
+                      child: Card(
+                        color: Colors.white.withOpacity(.1),
+                        child: playlist_tile(index, screenwidth),
+                      ),
+                    ),
+                  );
                 },
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 12, top: 2, right: 12, bottom: 2),
-                  child: Card(
-                    color: Colors.white.withOpacity(.1),
-                    child: playlist_tile(index, screenwidth),
-                  ),
-                ),
-              );
-            },
-            itemCount: audioconvertedsongs.length,
-          ),
+                itemCount: dbSongController.audioconvertedsongs.length,
+              ))),
         ),
       ],
     );
@@ -162,7 +165,9 @@ class _AllSongs3State extends State<AllSongs3> {
                 nullArtworkWidget: Image.asset(
                   "assets/best-rap-songs-1583527287.png",
                 ),
-                id: int.parse(audioconvertedsongs[index].metas.id.toString()),
+                id: int.parse(dbSongController
+                    .audioconvertedsongs[index].metas.id
+                    .toString()),
                 type: ArtworkType.AUDIO)),
       ),
       title: Row(
@@ -176,7 +181,7 @@ class _AllSongs3State extends State<AllSongs3> {
                 width: screenwidth / 3,
                 margin: const EdgeInsets.only(right: 13),
                 child: Text(
-                  audioconvertedsongs[index].metas.title!,
+                  dbSongController.audioconvertedsongs[index].metas.title!,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(color: Colors.white),
                 ),
@@ -184,7 +189,9 @@ class _AllSongs3State extends State<AllSongs3> {
               Container(
                 width: screenwidth / 3,
                 margin: const EdgeInsets.only(right: 13),
-                child: audioconvertedsongs[index].metas.artist == '<unknown>'
+                child: dbSongController
+                            .audioconvertedsongs[index].metas.artist ==
+                        '<unknown>'
                     ? const Text(
                         overflow: TextOverflow.ellipsis,
                         'unknown artist',
@@ -192,7 +199,8 @@ class _AllSongs3State extends State<AllSongs3> {
                       )
                     : Text(
                         overflow: TextOverflow.ellipsis,
-                        audioconvertedsongs[index].metas.artist!,
+                        dbSongController
+                            .audioconvertedsongs[index].metas.artist!,
                         style:
                             const TextStyle(fontSize: 12, color: Colors.white),
                       ),

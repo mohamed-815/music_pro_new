@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:music_pro_1/db/allsongstoringclass.dart';
 import 'package:music_pro_1/db/boxinstance.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
+import 'package:music_pro_1/db/dbsongcontroller/dbsongcontroller.dart';
+import 'package:music_pro_1/db/dbsongcontroller/dbsongcontroller.dart';
+import 'package:music_pro_1/main.dart';
 import 'package:music_pro_1/presentation/playlist/insideplaylist.dart';
 import 'package:music_pro_1/presentation/commonwidgets/showdialogbox.dart';
 import 'package:music_pro_1/presentation/commonwidgets/snackbars.dart';
@@ -33,7 +36,7 @@ class _PlayListlistState extends State<PlayListlist> {
       flex: 2,
       child: ListView.builder(
           shrinkWrap: true,
-          itemCount: playlistkeys.length,
+          itemCount: dbSongController.playlistkeys.length,
           itemBuilder: (context, index) {
             return GestureDetector(
                 onTap: () {
@@ -43,12 +46,13 @@ class _PlayListlistState extends State<PlayListlist> {
                       context,
                       MaterialPageRoute(
                           builder: ((context) => InsidePlaylist(
-                                playlistname: playlistkeys[index],
+                                playlistname:
+                                    dbSongController.playlistkeys[index],
                               ))));
                 },
-                child: playlistkeys[index] != 'favorite' &&
-                        playlistkeys[index] != 'totalsongs' &&
-                        playlistkeys[index] != 'recent1'
+                child: dbSongController.playlistkeys[index] != 'favorite' &&
+                        dbSongController.playlistkeys[index] != 'totalsongs' &&
+                        dbSongController.playlistkeys[index] != 'recent1'
                     ? Padding(
                         padding: const EdgeInsets.all(5),
                         child: Card(
@@ -63,7 +67,7 @@ class _PlayListlistState extends State<PlayListlist> {
                               ),
                             ),
                             title: Text(
-                              playlistkeys[index].toString(),
+                              dbSongController.playlistkeys[index].toString(),
                               style: const TextStyle(
                                   fontSize: 20, color: Colors.white),
                             ),
@@ -80,7 +84,9 @@ class _PlayListlistState extends State<PlayListlist> {
                                   width: screenwidth / 50,
                                 ),
                                 Text(
-                                  totalSongs(name: playlistkeys[index]),
+                                  totalSongs(
+                                      name:
+                                          dbSongController.playlistkeys[index]),
                                   style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
@@ -97,7 +103,8 @@ class _PlayListlistState extends State<PlayListlist> {
                                           builder: (ctx) {
                                             return ShowdialogeEdit(
                                                 playlistcurrentname:
-                                                    playlistkeys[index]);
+                                                    dbSongController
+                                                        .playlistkeys[index]);
                                           });
                                     },
                                     child: Icon(
@@ -161,14 +168,15 @@ class _PlayListlistState extends State<PlayListlist> {
                                                               playlistbox.keys
                                                                       .toList() !=
                                                                   'recent1') {
-                                                            await playlistbox
-                                                                .delete(
-                                                                    playlistkeys[
-                                                                        index]);
+                                                            await playlistbox.delete(
+                                                                dbSongController
+                                                                        .playlistkeys[
+                                                                    index]);
                                                           }
 
                                                           setState(() {
-                                                            playlistkeys =
+                                                            dbSongController
+                                                                    .playlistkeys =
                                                                 playlistbox.keys
                                                                     .toList();
                                                             // playlistkeys.removeWhere((element) =>
