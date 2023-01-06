@@ -19,14 +19,14 @@ class DbSongController extends GetxController {
 
   List<SongModel>? fetchedsongs;
   List<AllSongs>? allsongs;
-  List<AllSongs> dbsongs = [];
+  List<dynamic> dbsongs = [];
   List<Audio> audioconvertedsongs = [];
 
   String? value1;
 //play list
-  List playlists = [];
+  List playlists1 = [];
 
-  List playlistkeys = playlistbox.keys.toList();
+  //List playlistkeys = playlistbox.keys.toList();
   List playlistkey = [];
   List<dynamic> playlistsongs1 = [];
 
@@ -56,7 +56,11 @@ class DbSongController extends GetxController {
 
     final Box<List> boxallsongs = Boxes.getInstance();
     await boxallsongs.put('totalsongs', allsongs!);
-    dbsongs = boxallsongs.get('totalsongs') as List<AllSongs>;
+    dbsongs = boxallsongs.get('totalsongs')!;
+
+    // as
+
+    //List<AllSongs>;
 
     if (dbsongs != null) {
       for (var element in dbsongs) {

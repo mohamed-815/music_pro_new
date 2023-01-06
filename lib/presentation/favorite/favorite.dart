@@ -10,7 +10,7 @@ import 'package:music_pro_1/funtion.dart';
 import 'package:music_pro_1/main.dart';
 import 'package:music_pro_1/presentation/favorite/favoritecontroller.dart';
 import 'package:music_pro_1/presentation/home/mainscreen.dart';
-import 'package:music_pro_1/presentation/commonwidgets/miniplayer.dart';
+import 'package:music_pro_1/presentation/detailsongs/miniplayer.dart';
 import 'package:music_pro_1/presentation/commonwidgets/snackbars.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:scaffold_gradient_background/scaffold_gradient_background.dart';
@@ -19,20 +19,15 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 //List<Audio> playlikedsong = [];
 FavoriteController favoriteController = Get.put(FavoriteController());
 
-class Favorites extends StatefulWidget {
+class Favorites extends StatelessWidget {
   const Favorites({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<Favorites> createState() => _FavoritesState();
-}
-
-class _FavoritesState extends State<Favorites> {
-  @override
   Widget build(BuildContext context) {
-    final double screenhight = MediaQuery.of(context).size.height;
-    final double screenwidth = MediaQuery.of(context).size.width;
+    // final double screenhight = MediaQuery.of(context).size.height;
+    // final double screenwidth = MediaQuery.of(context).size.width;
     return ScaffoldGradientBackground(
       gradient: const LinearGradient(
         begin: Alignment.centerLeft,
@@ -42,9 +37,9 @@ class _FavoritesState extends State<Favorites> {
       body: SafeArea(
           child: Stack(
         children: [
-          GetX<FavoriteController>(
+          GetBuilder<FavoriteController>(
               init: FavoriteController(),
-              builder: (h) {
+              builder: (val1) {
                 return Column(
                   children: [
                     ListTile(
@@ -90,8 +85,8 @@ class _FavoritesState extends State<Favorites> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
                         child: Container(
-                          height: screenhight / 3.5,
-                          width: screenwidth / 2,
+                          height: val1.mediaQueryheight(context) / 3.5,
+                          width: val1.mediaQuerywidth(context) / 2,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
                               image: const DecorationImage(
@@ -102,11 +97,11 @@ class _FavoritesState extends State<Favorites> {
                       ),
                     ),
                     SizedBox(
-                      height: screenhight / 25,
+                      height: val1.mediaQueryheight(context) / 25,
                     ),
 
                     //favoritesongs == null || favoritesongs == []
-                    h.favoritesongs!.isEmpty
+                    val1.favoritesongs.isEmpty
                         ? Expanded(
                             child: const Center(
                                 child: Text(
@@ -117,7 +112,7 @@ class _FavoritesState extends State<Favorites> {
                           )))
                         : Expanded(
                             flex: 8,
-                            child: GetX<FavoriteController>(
+                            child: GetBuilder<FavoriteController>(
                                 init: FavoriteController(),
                                 builder: (val1) {
                                   return ListView.builder(
@@ -164,7 +159,9 @@ class _FavoritesState extends State<Favorites> {
                                                         Radius.circular(20))),
                                             context: context,
                                             builder: (ctx) => SizedBox(
-                                                height: screenhight / 9,
+                                                height: val1.mediaQueryheight(
+                                                        context) /
+                                                    9,
                                                 child: MiniPlayer()),
                                           );
 
@@ -214,7 +211,7 @@ class _FavoritesState extends State<Favorites> {
                                                           "assets/best-rap-songs-1583527287.png",
                                                         ),
                                                         id: val1
-                                                            .favoritesongs![
+                                                            .favoritesongs[
                                                                 index]
                                                             .id
                                                         // int.parse(audioconvertedsongs[index]
@@ -236,12 +233,15 @@ class _FavoritesState extends State<Favorites> {
                                                             .start,
                                                     children: [
                                                       Container(
-                                                        width: screenwidth / 3,
+                                                        width:
+                                                            val1.mediaQuerywidth(
+                                                                    context) /
+                                                                3,
                                                         margin: const EdgeInsets
                                                             .only(right: 13),
                                                         child: Text(
                                                           val1
-                                                              .favoritesongs![
+                                                              .favoritesongs[
                                                                   index]
                                                               .title!,
                                                           overflow: TextOverflow
@@ -253,11 +253,14 @@ class _FavoritesState extends State<Favorites> {
                                                         ),
                                                       ),
                                                       Container(
-                                                        width: screenwidth / 3,
+                                                        width:
+                                                            val1.mediaQuerywidth(
+                                                                    context) /
+                                                                3,
                                                         margin: const EdgeInsets
                                                             .only(right: 13),
                                                         child: val1
-                                                                    .favoritesongs![
+                                                                    .favoritesongs[
                                                                         index]
                                                                     .artist ==
                                                                 '<unknown>'
@@ -270,8 +273,8 @@ class _FavoritesState extends State<Favorites> {
                                                                         .white),
                                                               )
                                                             : Text(
-                                                                h
-                                                                    .favoritesongs![
+                                                                val1
+                                                                    .favoritesongs[
                                                                         index]
                                                                     .artist!,
                                                                 overflow:
@@ -339,7 +342,7 @@ class _FavoritesState extends State<Favorites> {
                                         ),
                                       );
                                     },
-                                    itemCount: val1.favoritesongs!.length,
+                                    itemCount: val1.favoritesongs.length,
                                   );
                                 }),
                           )
@@ -436,13 +439,6 @@ class _FavoritesState extends State<Favorites> {
       )),
     );
   }
-
-  // @override
-  // void didChangeDependencies() {
-  //   favoritesongs = favoritebox.get('favorite');
-  //   // TODO: implement didChangeDependencies
-  //   super.didChangeDependencies();
-  // }
 }
 
 // Future<void> Dialogbox2(context) async {

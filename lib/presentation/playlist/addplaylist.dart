@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:music_pro_1/db/dbfetching.dart';
 import 'package:music_pro_1/db/dbsongcontroller/dbsongcontroller.dart';
@@ -10,33 +11,19 @@ import 'package:music_pro_1/funtion.dart';
 import 'package:music_pro_1/main.dart';
 import 'package:music_pro_1/presentation/home/mainscreen.dart';
 
-import 'package:music_pro_1/presentation/commonwidgets/allsongs.dart';
-import 'package:music_pro_1/presentation/commonwidgets/playlistlist.dart';
+import 'package:music_pro_1/presentation/home/widget/allsongs.dart';
+import 'package:music_pro_1/presentation/playlist/widgets/playlistlist.dart';
 import 'package:music_pro_1/presentation/commonwidgets/snackbars.dart';
+import 'package:music_pro_1/presentation/playlist/playlistcontroller.dart';
 
 import 'package:scaffold_gradient_background/scaffold_gradient_background.dart';
 
-import '../commonwidgets/miniplayer.dart';
+import '../detailsongs/miniplayer.dart';
 
-class AddPlayList extends StatefulWidget {
+class AddPlayList extends StatelessWidget {
   const AddPlayList({
     Key? key,
   }) : super(key: key);
-
-  @override
-  State<AddPlayList> createState() => _AddPlayListState();
-}
-
-class _AddPlayListState extends State<AddPlayList> {
-  late TextEditingController controller;
-  final formkey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    controller = TextEditingController();
-    // TODO: implement initState
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,133 +86,148 @@ class _AddPlayListState extends State<AddPlayList> {
                     await showDialog(
                         context: context,
                         builder: (ctx) {
-                          return Dialog(
-                            backgroundColor:
-                                const Color.fromARGB(255, 44, 82, 71),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(30.0),
-                              child: Container(
-                                width: screenwidth / 10,
-                                height: screenhight / 4,
-                                child: Column(
-                                  children: [
-                                    Form(
-                                      key: formkey,
-                                      child: TextFormField(
-                                        textCapitalization:
-                                            TextCapitalization.sentences,
-                                        controller: controller,
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
-                                              borderSide: const BorderSide(
-                                                  color: Colors.white)),
-                                          enabledBorder: OutlineInputBorder(
-                                              borderSide: const BorderSide(
-                                                  color: Colors.white,
-                                                  width: 2),
-                                              borderRadius:
-                                                  BorderRadius.circular(30)),
-                                          hintStyle: const TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 202, 202, 202)),
-                                          hintText: 'Create a Playlist',
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                            borderSide: const BorderSide(
-                                              color: Color.fromARGB(
-                                                  255, 155, 122, 122),
-                                              width: 2.0,
+                          return GetBuilder<PlayListController>(
+                              init: PlayListController(),
+                              builder: (c) {
+                                return Dialog(
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 44, 82, 71),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(30.0),
+                                    child: Container(
+                                      width: screenwidth / 10,
+                                      height: screenhight / 4,
+                                      child: Column(
+                                        children: [
+                                          Form(
+                                            key: c.formkey,
+                                            child: TextFormField(
+                                              textCapitalization:
+                                                  TextCapitalization.sentences,
+                                              controller: c.controller,
+                                              style: const TextStyle(
+                                                  color: Colors.white),
+                                              decoration: InputDecoration(
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30),
+                                                    borderSide:
+                                                        const BorderSide(
+                                                            color:
+                                                                Colors.white)),
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                        borderSide:
+                                                            const BorderSide(
+                                                                color: Colors
+                                                                    .white,
+                                                                width: 2),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(30)),
+                                                hintStyle: const TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 202, 202, 202)),
+                                                hintText: 'Create a Playlist',
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  borderSide: const BorderSide(
+                                                    color: Color.fromARGB(
+                                                        255, 155, 122, 122),
+                                                    width: 2.0,
+                                                  ),
+                                                ),
+                                              ),
+                                              onChanged: (value) {
+                                                //value1 = value.trim();
+                                              },
+                                              validator: (value) {
+                                                List keys =
+                                                    playlistbox.keys.toList();
+                                                if (value!.trim() == '') {
+                                                  return "Name required";
+                                                }
+                                                if (keys
+                                                    .where((element) =>
+                                                        element == value.trim())
+                                                    .isNotEmpty) {
+                                                  return "This name is already exists";
+                                                }
+                                              },
                                             ),
                                           ),
-                                        ),
-                                        onChanged: (value) {
-                                          //value1 = value.trim();
-                                        },
-                                        validator: (value) {
-                                          List keys = playlistbox.keys.toList();
-                                          if (value!.trim() == '') {
-                                            return "Name required";
-                                          }
-                                          if (keys
-                                              .where((element) =>
-                                                  element == value.trim())
-                                              .isNotEmpty) {
-                                            return "This name is already exists";
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: screenhight / 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10, 0, 10, 0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
                                           SizedBox(
-                                            width: screenwidth / 4.5,
-                                            child: ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20))),
-                                                onPressed: () {
-                                                  submit();
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(SnackBar1()
-                                                          .playlistcreated);
-                                                },
-                                                child: const Text(
-                                                  'Create',
-                                                  style: TextStyle(
-                                                      color: Colors.black),
-                                                )),
+                                            height: screenhight / 20,
                                           ),
-                                          SizedBox(
-                                            width: screenwidth / 4.5,
-                                            child: ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20))),
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text(
-                                                  'Cancel',
-                                                  style: TextStyle(
-                                                      color: Colors.black),
-                                                )),
-                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                10, 0, 10, 0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                SizedBox(
+                                                  width: screenwidth / 4.5,
+                                                  child: ElevatedButton(
+                                                      style: ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20))),
+                                                      onPressed: () {
+                                                        c.submit(context);
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                                SnackBar1()
+                                                                    .playlistcreated);
+                                                      },
+                                                      child: const Text(
+                                                        'Create',
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.black),
+                                                      )),
+                                                ),
+                                                SizedBox(
+                                                  width: screenwidth / 4.5,
+                                                  child: ElevatedButton(
+                                                      style: ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20))),
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Text(
+                                                        'Cancel',
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.black),
+                                                      )),
+                                                ),
+                                              ],
+                                            ),
+                                          )
                                         ],
                                       ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
+                                    ),
+                                  ),
+                                );
+                              });
                         });
                   }
                   // onTap: ()
@@ -352,34 +354,35 @@ class _AddPlayListState extends State<AddPlayList> {
     );
   }
 
-  void submit() {
-    //playlistName = controller.text;
-    List<AllSongs1> librayry = [];
-    List<dynamic> freelist = [];
-    List? excistingName = [];
-    if (dbSongController.playlists.isNotEmpty) {
-      excistingName = dbSongController.playlists
-          .where((element) => element == controller.text)
-          .toList();
-    }
+  // void submit() {
+  //   //playlistName = controller.text;
+  //   List<AllSongs1> librayry = [];
+  //   List<dynamic> freelist = [];
+  //   List? excistingName = [];
+  //   if (dbSongController.playlists.isNotEmpty) {
+  //     excistingName = dbSongController.playlists
+  //         .where((element) => element == controller.text)
+  //         .toList();
+  //   }
 
-    if (controller.text != '' &&
-        excistingName.isEmpty &&
-        formkey.currentState!.validate()) {
-      playlistbox.put(controller.text, freelist);
-      Navigator.of(context).pop();
+  //   if (controller.text != '' &&
+  //       excistingName.isEmpty &&
+  //       formkey.currentState!.validate()) {
+  //     playlistbox.put(controller.text, freelist);
+  //     Navigator.of(context).pop();
 
-      setState(() {
-        dbSongController.playlistkeys = playlistbox.keys.toList();
-      });
-    }
+  //     setState(() {
+  //       dbSongController.playlistkeys = playlistbox.keys.toList();
+  //     });
+  //   }
 
-    // else {
-    //   ScaffoldMessenger.of(context).showSnackBar(existingPlaylist);
-    // }
+  //   // else {
+  //   //   ScaffoldMessenger.of(context).showSnackBar(existingPlaylist);
+  //   // }
 
-    controller.clear();
-  }
+  //   controller.clear();
+  // }
+
 }
 
 //Future<void> Dialogbox1(context) async {}

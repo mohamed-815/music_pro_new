@@ -8,12 +8,12 @@ import 'package:music_pro_1/db/dbfetching.dart';
 
 import 'package:music_pro_1/funtion.dart';
 import 'package:music_pro_1/main.dart';
-import 'package:music_pro_1/presentation/commonwidgets/miniplayer.dart';
+import 'package:music_pro_1/presentation/detailsongs/miniplayer.dart';
 import 'package:music_pro_1/presentation/home/mainscreencontroller.dart';
 import 'package:music_pro_1/presentation/playlist/addplaylist.dart';
 import 'package:music_pro_1/presentation/favorite/favorite.dart';
 import 'package:music_pro_1/presentation/recent/recent.dart';
-import 'package:music_pro_1/presentation/commonwidgets/allsongs.dart';
+import 'package:music_pro_1/presentation/home/widget/allsongs.dart';
 import 'package:music_pro_1/presentation/commonwidgets/draw.dart';
 import 'package:music_pro_1/presentation/search/search.dart';
 import 'package:scaffold_gradient_background/scaffold_gradient_background.dart';
@@ -99,28 +99,15 @@ class MainScreen extends StatelessWidget {
                                     if (mainScreenController
                                             .SongList[index].title ==
                                         'Favorite') {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: ((context) =>
-                                                const Favorites())),
-                                      );
+                                      Get.to(() => const Favorites());
                                     } else if (mainScreenController
                                             .SongList[index].title ==
                                         'Play List') {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: ((context) =>
-                                                  const AddPlayList())));
+                                      Get.to(() => const AddPlayList());
                                     } else if (mainScreenController
                                             .SongList[index].title ==
                                         'Recents') {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: ((context) =>
-                                                  const Recent1())));
+                                      Get.to(() => Recent1());
                                     }
                                   },
                                   child: Container(

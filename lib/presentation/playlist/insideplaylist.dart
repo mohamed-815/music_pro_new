@@ -2,38 +2,36 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/state_manager.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_pro_1/db/audioplay.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
 import 'package:music_pro_1/db/dbsongcontroller/dbsongcontroller.dart';
 import 'package:music_pro_1/main.dart';
-import 'package:music_pro_1/presentation/commonwidgets/miniplayer.dart';
-import 'package:music_pro_1/presentation/commonwidgets/allsongforplaylist.dart';
+import 'package:music_pro_1/presentation/detailsongs/miniplayer.dart';
+import 'package:music_pro_1/presentation/home/mainscreencontroller.dart';
+import 'package:music_pro_1/presentation/playlist/playlistcontroller.dart';
+import 'package:music_pro_1/presentation/playlist/widgets/allsongforplaylist.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:scaffold_gradient_background/scaffold_gradient_background.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
-class InsidePlaylist extends StatefulWidget {
+// @override
+// void initState() {
+//   //final playlistsongs1 = playlistbox.get(widget.playlistname)!;
+//   // TODO: implement initState
+//   super.initState();
+//   // print(playlistsongs1);
+// }
+
+class InsidePlaylist extends StatelessWidget {
   String playlistname;
   InsidePlaylist({required this.playlistname, super.key});
 
-  @override
-  State<InsidePlaylist> createState() => _InsidePlaylistState();
-}
-
-// List<dynamic> playlistsongs1 = [];
+  // List<dynamic> playlistsongs1 = [];
 // List<Audio> playlistaudio = [];
-List<Audio> playlistaudio = [];
-
-class _InsidePlaylistState extends State<InsidePlaylist> {
-  @override
-  void initState() {
-    final playlistsongs1 = playlistbox.get(widget.playlistname)!;
-    // TODO: implement initState
-    super.initState();
-    print(playlistsongs1);
-  }
+//List<Audio> playlistaudio = [];
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +82,7 @@ class _InsidePlaylistState extends State<InsidePlaylist> {
                         Color.fromARGB(255, 212, 231, 227),
                         Color.fromARGB(255, 225, 213, 213)
                       ],
-                      widget.playlistname.toString(),
+                      playlistname.toString(),
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.bold),
                     ),
@@ -100,7 +98,7 @@ class _InsidePlaylistState extends State<InsidePlaylist> {
                           context: context,
                           builder: (ctx) {
                             return AllSongs3(
-                              playlistname1: widget.playlistname,
+                              playlistname1: playlistname,
                             );
                           });
                       // showBottomSheet(
@@ -128,179 +126,231 @@ class _InsidePlaylistState extends State<InsidePlaylist> {
           ValueListenableBuilder(
             valueListenable: playlistbox.listenable(),
             builder: (BuildContext context, Boxes, _) {
-              dbSongController.playlistsongs1 =
-                  playlistbox.get(widget.playlistname)!;
+              dbSongController.playlistsongs1 = playlistbox.get(playlistname)!;
 
               return Expanded(
                   flex: 8,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () async {
-                          dbSongController.recent1 =
-                              dbSongController.box.get('recent1')!;
-                          final isinrecent = dbSongController.recent1
-                              .where(((element) =>
-                                  element.id.toString() ==
-                                  dbSongController.playlistsongs1[index].id
-                                      .toString()))
-                              .toList();
-                          if (isinrecent.isEmpty) {
-                            dbSongController.recent1
-                                .add(dbSongController.playlistsongs1[index]);
-                            dbSongController.recent1 =
-                                dbSongController.recent1.reversed.toList();
-                            if (dbSongController.recent1.length >= 5) {
-                              dbSongController.recent1.removeLast();
-                            }
-                            dbSongController.recent1 =
-                                dbSongController.recent1.reversed.toList();
-                            await dbSongController.box
-                                .put('recent1', dbSongController.recent1);
-                            // recent = box.get('recent1')!.toList();
-                          }
+                  child: GetBuilder<DbSongController>(
+                      init: DbSongController(),
+                      builder: (dbcontroller) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return GetBuilder<PlayListController>(
+                                init: PlayListController(),
+                                builder: (playlistcont) {
+                                  return GestureDetector(
+                                    onTap: () async {
+                                      playlistcont
+                                          .adingToRecentFromPlayList(index);
 
-                          showBottomSheet(
-                            backgroundColor: const Color(0xFF52796F),
-                            shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20))),
-                            context: context,
-                            builder: (ctx) => SizedBox(
-                                height: screenhight / 9, child: MiniPlayer()),
-                          );
-                          for (var element in dbSongController.playlistsongs1) {
-                            playlistaudio.add(Audio.file(element.uri.toString(),
-                                metas: Metas(
-                                  title: element.title,
-                                  id: element.id.toString(),
-                                  artist: element.artist,
-                                  album: element.duration.toString(),
-                                )));
-                          }
+                                      // dbSongController.recent1 =
+                                      //     dbSongController.box.get('recent1')!;
+                                      // final isinrecent = dbSongController.recent1
+                                      //     .where(((element) =>
+                                      //         element.id.toString() ==
+                                      //         dbSongController.playlistsongs1[index].id
+                                      //             .toString()))
+                                      //     .toList();
+                                      // if (isinrecent.isEmpty) {
+                                      //   dbSongController.recent1
+                                      //       .add(dbSongController.playlistsongs1[index]);
+                                      //   dbSongController.recent1 =
+                                      //       dbSongController.recent1.reversed.toList();
+                                      //   if (dbSongController.recent1.length >= 5) {
+                                      //     dbSongController.recent1.removeLast();
+                                      //   }
+                                      //   dbSongController.recent1 =
+                                      //       dbSongController.recent1.reversed.toList();
+                                      //   await dbSongController.box
+                                      //       .put('recent1', dbSongController.recent1);
+                                      //   // recent = box.get('recent1')!.toList();
+                                      // }
 
-                          await AssetAudioPlay(
-                                  audioconvertedsongs: playlistaudio,
-                                  index: index)
-                              .songPlayNow(playlistaudio, index);
+                                      showBottomSheet(
+                                        backgroundColor:
+                                            const Color(0xFF52796F),
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(20),
+                                                topRight: Radius.circular(20))),
+                                        context: context,
+                                        builder: (ctx) => SizedBox(
+                                            height: screenhight / 9,
+                                            child: MiniPlayer()),
+                                      );
+                                      playlistcont.playListSongPlay(index);
+                                      // for (var element
+                                      //     in dbSongController.playlistsongs1) {
+                                      //   playlistaudio
+                                      //       .add(Audio.file(element.uri.toString(),
+                                      //           metas: Metas(
+                                      //             title: element.title,
+                                      //             id: element.id.toString(),
+                                      //             artist: element.artist,
+                                      //             album: element.duration.toString(),
+                                      //           )));
+                                      // }
 
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: ((context) => DetailSong(
-                          //               audioPlayer: audioplayer,
-                          //               index: index,
-                          //             ))));
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
-                          child: Card(
-                            color: Colors.white.withOpacity(.1),
-                            child: ListTile(
-                              contentPadding: const EdgeInsets.all(6),
-                              leading: Container(
-                                // padding: EdgeInsets.only(
-                                //     top: screenwidth / 50, bottom: screenwidth / 50),
-                                width: 50,
+                                      // await AssetAudioPlay(
+                                      //         audioconvertedsongs: playlistaudio,
+                                      //         index: index)
+                                      //     .songPlayNow(playlistaudio, index);
 
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(50),
-                                    child: QueryArtworkWidget(
-                                        nullArtworkWidget: Image.asset(
-                                          "assets/best-rap-songs-1583527287.png",
-                                        ),
-                                        id: dbSongController
-                                            .playlistsongs1[index].id,
-                                        type: ArtworkType.AUDIO)),
-                              ),
-                              title: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        width: screenwidth / 3,
-                                        margin:
-                                            const EdgeInsets.only(right: 13),
-                                        child: Text(
-                                          dbSongController
-                                              .playlistsongs1[index].title!,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                        ),
+                                      // Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: ((context) => DetailSong(
+                                      //               audioPlayer: audioplayer,
+                                      //               index: index,
+                                      //             ))));
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          15, 5, 15, 5),
+                                      child: Card(
+                                        color: Colors.white.withOpacity(.1),
+                                        child: GetBuilder<DbSongController>(
+                                            init: DbSongController(),
+                                            builder: (dbc) {
+                                              return ListTile(
+                                                contentPadding:
+                                                    const EdgeInsets.all(6),
+                                                leading: Container(
+                                                  // padding: EdgeInsets.only(
+                                                  //     top: screenwidth / 50, bottom: screenwidth / 50),
+                                                  width: 50,
+
+                                                  child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50),
+                                                      child: QueryArtworkWidget(
+                                                          nullArtworkWidget:
+                                                              Image.asset(
+                                                            "assets/best-rap-songs-1583527287.png",
+                                                          ),
+                                                          id: dbc
+                                                              .playlistsongs1[
+                                                                  index]
+                                                              .id,
+                                                          type: ArtworkType
+                                                              .AUDIO)),
+                                                ),
+                                                title: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Container(
+                                                          width:
+                                                              screenwidth / 3,
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  right: 13),
+                                                          child: Text(
+                                                            dbc
+                                                                .playlistsongs1[
+                                                                    index]
+                                                                .title!,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style:
+                                                                const TextStyle(
+                                                                    color: Colors
+                                                                        .white),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          width:
+                                                              screenwidth / 3,
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  right: 13),
+                                                          child: dbc
+                                                                      .playlistsongs1[
+                                                                          index]
+                                                                      .artist ==
+                                                                  '<unknown>'
+                                                              ? const Text(
+                                                                  'unknown artist',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          12,
+                                                                      color: Colors
+                                                                          .white),
+                                                                )
+                                                              : Text(
+                                                                  dbc
+                                                                      .playlistsongs1[
+                                                                          index]
+                                                                      .artist!,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  style: const TextStyle(
+                                                                      fontSize:
+                                                                          12,
+                                                                      color: Colors
+                                                                          .white),
+                                                                ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                trailing: GestureDetector(
+                                                  onTap: () async {
+                                                    dbc.playlistsongs1
+                                                        .removeAt(index);
+
+                                                    await playlistbox.put(
+                                                        playlistname,
+                                                        dbSongController
+                                                            .playlistsongs1);
+                                                    // setState(() {});
+                                                  },
+                                                  child: Icon(
+                                                    Icons.delete,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                // trailing: GestureDetector(
+                                                //   onTap: () => Dialogbox2(context),
+                                                //   child: Row(
+                                                //     mainAxisSize: MainAxisSize.min,
+                                                //     children: [
+                                                //       Icon(
+                                                //         Icons.fiber_manual_record,
+                                                //         size: 10,
+                                                //       ),
+                                                //       Icon(
+                                                //         Icons.fiber_manual_record,
+                                                //         size: 10,
+                                                //       ),
+                                                //     ],
+                                                //   ),
+                                                // ),
+                                              );
+                                            }),
                                       ),
-                                      Container(
-                                        width: screenwidth / 3,
-                                        margin:
-                                            const EdgeInsets.only(right: 13),
-                                        child: dbSongController
-                                                    .playlistsongs1[index]
-                                                    .artist ==
-                                                '<unknown>'
-                                            ? const Text(
-                                                'unknown artist',
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: Colors.white),
-                                              )
-                                            : Text(
-                                                dbSongController
-                                                    .playlistsongs1[index]
-                                                    .artist!,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                    fontSize: 12,
-                                                    color: Colors.white),
-                                              ),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-
-                              trailing: GestureDetector(
-                                onTap: () async {
-                                  dbSongController.playlistsongs1
-                                      .removeAt(index);
-
-                                  await playlistbox.put(widget.playlistname,
-                                      dbSongController.playlistsongs1);
-                                  setState(() {});
-                                },
-                                child: Icon(
-                                  Icons.delete,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              // trailing: GestureDetector(
-                              //   onTap: () => Dialogbox2(context),
-                              //   child: Row(
-                              //     mainAxisSize: MainAxisSize.min,
-                              //     children: [
-                              //       Icon(
-                              //         Icons.fiber_manual_record,
-                              //         size: 10,
-                              //       ),
-                              //       Icon(
-                              //         Icons.fiber_manual_record,
-                              //         size: 10,
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                    itemCount: dbSongController.playlistsongs1.length,
-                  ));
+                                    ),
+                                  );
+                                });
+                          },
+                          itemCount: dbcontroller.playlistsongs1.length,
+                        );
+                      }));
             },
           ),
         ]),
@@ -308,8 +358,6 @@ class _InsidePlaylistState extends State<InsidePlaylist> {
     );
   }
 }
-
-
 
 
 

@@ -6,22 +6,17 @@ import 'package:music_pro_1/db/dbfetching.dart';
 import 'package:music_pro_1/funtion.dart';
 import 'package:music_pro_1/main.dart';
 import 'package:music_pro_1/presentation/home/mainscreen.dart';
-import 'package:music_pro_1/presentation/commonwidgets/miniplayer.dart';
+import 'package:music_pro_1/presentation/detailsongs/miniplayer.dart';
 
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:scaffold_gradient_background/scaffold_gradient_background.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
-class Recent1 extends StatefulWidget {
-  const Recent1({
+class Recent1 extends StatelessWidget {
+  Recent1({
     Key? key,
   }) : super(key: key);
 
-  @override
-  State<Recent1> createState() => _Recent1State();
-}
-
-class _Recent1State extends State<Recent1> {
   List<Audio> rcentaudio = [];
 
   @override

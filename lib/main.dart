@@ -8,9 +8,11 @@ import 'package:music_pro_1/db/boxinstance.dart';
 import 'package:music_pro_1/db/dbfetching.dart';
 import 'package:music_pro_1/db/dbsongcontroller/dbsongcontroller.dart';
 import 'package:music_pro_1/presentation/favorite/favorite.dart';
+import 'package:music_pro_1/presentation/playlist/playlistcontroller.dart';
 import 'package:music_pro_1/presentation/splashscreen/spalashscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+PlayListController playListController = Get.put(PlayListController());
 DbSongController dbSongController = Get.put(DbSongController());
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +32,7 @@ void main() async {
     await favoritebox.put("recent1", favMusic);
   }
 
-  favoriteController.favoritesongs!.value = favoritebox.get('favorite')!;
+  favoriteController.favoritesongs = favoritebox.get('favorite')!;
   final playlistbox = Boxes.getInstance();
   // final pref = await SharedPreferences.getInstance();
   // await pref.setBool('isturnon', false);

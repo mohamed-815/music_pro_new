@@ -8,17 +8,12 @@ import 'package:music_pro_1/main.dart';
 import 'package:music_pro_1/presentation/detailsongs/detailsong.dart';
 import 'package:music_pro_1/funtion.dart';
 
-class MiniPlayer extends StatefulWidget {
+class MiniPlayer extends StatelessWidget {
   int? index;
-  List<AllSongs>? dbsong1;
+  List<dynamic>? dbsong1;
 
   MiniPlayer({this.dbsong1, this.index, Key? key}) : super(key: key);
 
-  @override
-  State<MiniPlayer> createState() => _MiniPlayerState();
-}
-
-class _MiniPlayerState extends State<MiniPlayer> {
   @override
   Widget build(BuildContext context) {
     final double screenhieght = MediaQuery.of(context).size.height;
@@ -75,6 +70,9 @@ class _MiniPlayerState extends State<MiniPlayer> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       GestureDetector(
+                        onDoubleTapCancel: () {},
+                        onDoubleTapDown: ((details) {}),
+                        onDoubleTap: () {},
                         onTap: () async {
                           dbSongController.recent1 =
                               dbSongController.box.get('recent1')!;
@@ -92,7 +90,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                             dbSongController.recent1.add(songmodelsong);
                             dbSongController.recent1 =
                                 dbSongController.recent1.reversed.toList();
-                            if (dbSongController.recent1.length >= 5) {
+                            if (dbSongController.recent1.length >= 10) {
                               dbSongController.recent1.removeLast();
                             }
                             dbSongController.recent1 =
@@ -128,6 +126,9 @@ class _MiniPlayerState extends State<MiniPlayer> {
                         width: screenwidth / 25,
                       ),
                       GestureDetector(
+                        onDoubleTapCancel: () {},
+                        onDoubleTapDown: ((details) {}),
+                        onDoubleTap: () {},
                         onTap: () async {
                           dbSongController.recent1 =
                               dbSongController.box.get('recent1')!;
@@ -145,7 +146,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                             dbSongController.recent1.add(songmodelsong);
                             dbSongController.recent1 =
                                 dbSongController.recent1.reversed.toList();
-                            if (dbSongController.recent1.length >= 5) {
+                            if (dbSongController.recent1.length >= 10) {
                               dbSongController.recent1.removeLast();
                             }
                             dbSongController.recent1 =

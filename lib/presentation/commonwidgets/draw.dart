@@ -37,8 +37,8 @@ class Drawer1 extends StatelessWidget {
             height: screenhieght / 20,
           ),
           GestureDetector(
-            onTap: () => Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: ((context) => const Recent1()))),
+            onTap: () => Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: ((context) => Recent1()))),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(

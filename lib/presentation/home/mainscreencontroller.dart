@@ -34,7 +34,7 @@ class MainScreenController extends GetxController {
     if (isinrecent.isEmpty) {
       dbSongController.recent1.add(dbSongController.dbsongs[index]);
       dbSongController.recent1 = dbSongController.recent1.reversed.toList();
-      if (dbSongController.recent1.length >= 5) {
+      if (dbSongController.recent1.length >= 10) {
         dbSongController.recent1.removeLast();
       }
       dbSongController.recent1 = dbSongController.recent1.reversed.toList();
@@ -51,20 +51,32 @@ class MainScreenController extends GetxController {
   }
 
   removeFromfav(index) async {
-    favoriteController.favoritesongs?.removeWhere(
+    favoriteController.favoritesongs.removeWhere(
       (element) =>
           element.id.toString() ==
           dbSongController.dbsongs[index].id.toString(),
     );
-    await favoritebox.put('favorite', favoriteController.favoritesongs!);
+    await favoritebox.put('favorite', favoriteController.favoritesongs);
 
-    favoriteController.favoritesongs!.value = favoritebox.get('favorite')!;
+    favoriteController.favoritesongs = favoritebox.get('favorite')!;
+    update();
   }
 
   addTofav(index) async {
-    favoriteController.favoritesongs?.add(dbSongController.dbsongs[index]);
-    await favoritebox.put('favorite', favoriteController.favoritesongs!);
+    favoriteController.favoritesongs.add(dbSongController.dbsongs[index]);
+    await favoritebox.put('favorite', favoriteController.favoritesongs);
 
-    favoriteController.favoritesongs!.value = favoritebox.get('favorite')!;
+    favoriteController.favoritesongs = favoritebox.get('favorite')!;
+    update();
+  }
+
+  bool favCheck(index) {
+    return favoriteController.favoritesongs
+        .where(
+          (element) =>
+              element.id.toString() ==
+              dbSongController.dbsongs[index].id!.toString(),
+        )
+        .isEmpty;
   }
 }
