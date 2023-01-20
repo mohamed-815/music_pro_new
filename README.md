@@ -6,4 +6,6 @@ The project is open-source and contributions are welcome. If you're interested i
 To run the project, you will need to have Flutter SDK installed on your machine. You can find the installation instructions on the official website of Flutter.
 Once you have the SDK installed, you can run the project by running 'flutter run' command in the root directory of the project.
 We hope you enjoy using this Music Player app built with Flutter. Happy listening!
-![Cjr3Qo29zZ4y_1024_613](https://user-images.githubusercontent.com/107936573/213657012-a6a87416-a0ff-4ba0-aa80-ef80cb9fbd15.png)
+
+
+![iHdzQjngRN9n_1024_500](https://user-images.githubusercontent.com/107936573/213657226-4356d26e-4028-4c3e-9e65-b1735395c486.png)
