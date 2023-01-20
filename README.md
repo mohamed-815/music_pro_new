@@ -9,7 +9,9 @@ We hope you enjoy using this Music Player app built with Flutter. Happy listenin
 
 
 
-  ![iHdzQjngRN9n_1024_500 (2)](https://user-images.githubusercontent.com/107936573/213661962-93d5bdbd-4a84-4278-b1fe-fdc6a1ae2578.jpg)
+![image](https://user-images.githubusercontent.com/107936573/213662709-73db416d-46a4-4cf4-91da-1bb3160f51d9.png)
+
+
 
 
 Play Store: <a href="https://play.google.com/store/apps/details?id=in.mohamedkutty.music_pro" target="_blank">PLay_Store_Link</a>                                                                              
