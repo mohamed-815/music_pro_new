@@ -3,13 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:music_pro_1/db/allsongstoringclass.dart';
-import 'package:music_pro_1/db/boxinstance.dart';
-import 'package:music_pro_1/db/dbfetching.dart';
-import 'package:music_pro_1/db/dbsongcontroller/dbsongcontroller.dart';
-import 'package:music_pro_1/presentation/favorite/favorite.dart';
-import 'package:music_pro_1/presentation/playlist/playlistcontroller.dart';
-import 'package:music_pro_1/presentation/splashscreen/spalashscreen.dart';
+import 'package:music_pro_1/models/db/allsongstoringclass.dart';
+import 'package:music_pro_1/models/db/boxinstance.dart';
+import 'package:music_pro_1/models/db/audioplay.dart';
+import 'package:music_pro_1/controller/dbsongcontroller/dbsongcontroller.dart';
+import 'package:music_pro_1/view/favorite/favorite.dart';
+import 'package:music_pro_1/controller/playlistcontroller/playlistcontroller.dart';
+import 'package:music_pro_1/view/splashscreen/spalashscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 PlayListController playListController = Get.put(PlayListController());
