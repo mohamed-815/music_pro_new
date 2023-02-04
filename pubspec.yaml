@@ -36,6 +36,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_screenutil: ^5.5.4
+  flutter_webrtc: ^0.9.19
   get: ^4.6.5
   hive: ^2.2.3
   hive_flutter: ^1.1.0
@@ -47,6 +48,7 @@ dependencies:
   share_plus: ^6.0.0
   shared_preferences: ^2.0.15
   simple_gradient_text: ^1.2.4
+  webview_flutter: ^4.0.2
 
 dev_dependencies:
   flutter_launcher_icons: ^0.10.0
